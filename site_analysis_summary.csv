@@ -1,0 +1,10 @@
+Site,Best_System,Best_Posterior,Evidence_Strength,N_Accepted,N_Total,Acceptance_Rate,Posterior_strongly_patrilineal,Posterior_weakly_patrilineal,Posterior_balanced,Posterior_weakly_matrilineal,Posterior_strongly_matrilineal,BF_strongly_patrilineal,BF_weakly_patrilineal,BF_balanced,BF_weakly_matrilineal,BF_strongly_matrilineal
+Arbury,strongly_matrilineal,0.24,Inconclusive,25,500,0.05,0.16,0.2,0.16,0.24,0.24,0.7999999999999999,1.0,0.7999999999999999,1.2,1.2
+Duxford,strongly_patrilineal,0.36,Weak,25,500,0.05,0.36,0.28,0.08,0.08,0.2,1.7999999999999998,1.4000000000000001,0.39999999999999997,0.39999999999999997,1.0
+Fenstanton - Cambridge Road,strongly_matrilineal,0.32,Weak,25,500,0.05,0.28,0.08,0.16,0.16,0.32,1.4000000000000001,0.39999999999999997,0.7999999999999999,0.7999999999999999,1.5999999999999999
+Fenstanton - Dairy Crest,strongly_matrilineal,0.24,Inconclusive,25,500,0.05,0.2,0.2,0.12,0.24,0.24,1.0,1.0,0.6,1.2,1.2
+Knobbs 1,balanced,0.24,Inconclusive,25,500,0.05,0.16,0.12,0.24,0.24,0.24,0.7999999999999999,0.6,1.2,1.2,1.2
+Knobbs 2,strongly_patrilineal,0.24,Inconclusive,25,500,0.05,0.24,0.24,0.16,0.2,0.16,1.2,1.2,0.7999999999999999,1.0,0.7999999999999999
+Knobbs 3,weakly_patrilineal,0.36,Weak,25,500,0.05,0.28,0.36,0.16,0.12,0.08,1.4000000000000001,1.7999999999999998,0.7999999999999999,0.6,0.39999999999999997
+Northwest Cambridge Site IV RB.2C,strongly_patrilineal,0.32,Weak,25,500,0.05,0.32,0.2,0.16,0.16,0.16,1.5999999999999999,1.0,0.7999999999999999,0.7999999999999999,0.7999999999999999
+Vicar's Farm,weakly_matrilineal,0.28,Inconclusive,25,500,0.05,0.12,0.16,0.24,0.28,0.2,0.6,0.7999999999999999,1.2,1.4000000000000001,1.0

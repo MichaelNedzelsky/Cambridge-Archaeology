@@ -1,0 +1,155 @@
+================================================================================
+CAMBRIDGE ARCHAEOLOGY INHERITANCE PATTERN ANALYSIS - DETAILED REPORT
+================================================================================
+
+EXECUTIVE SUMMARY
+----------------------------------------
+Total sites analyzed: 9
+Most common inheritance pattern: strongly_matrilineal (3 sites)
+Sites with strong evidence: 0
+Sites with moderate evidence: 0
+Sites with weak evidence: 4
+
+SITE-BY-SITE ANALYSIS
+----------------------------------------
+
+Arbury:
+  Best inheritance system: strongly_matrilineal
+  Posterior probability: 0.240
+  Evidence strength: Inconclusive
+  ABC acceptance rate: 5.0%
+  Top alternatives:
+    strongly_matrilineal: 0.240
+    weakly_patrilineal: 0.200
+
+Duxford:
+  Best inheritance system: strongly_patrilineal
+  Posterior probability: 0.360
+  Evidence strength: Weak
+  ABC acceptance rate: 5.0%
+  Top alternatives:
+    weakly_patrilineal: 0.280
+    strongly_matrilineal: 0.200
+
+Fenstanton - Cambridge Road:
+  Best inheritance system: strongly_matrilineal
+  Posterior probability: 0.320
+  Evidence strength: Weak
+  ABC acceptance rate: 5.0%
+  Top alternatives:
+    strongly_patrilineal: 0.280
+    balanced: 0.160
+
+Fenstanton - Dairy Crest:
+  Best inheritance system: strongly_matrilineal
+  Posterior probability: 0.240
+  Evidence strength: Inconclusive
+  ABC acceptance rate: 5.0%
+  Top alternatives:
+    strongly_matrilineal: 0.240
+    strongly_patrilineal: 0.200
+
+Knobbs 1:
+  Best inheritance system: balanced
+  Posterior probability: 0.240
+  Evidence strength: Inconclusive
+  ABC acceptance rate: 5.0%
+  Top alternatives:
+    weakly_matrilineal: 0.240
+    strongly_matrilineal: 0.240
+
+Knobbs 2:
+  Best inheritance system: strongly_patrilineal
+  Posterior probability: 0.240
+  Evidence strength: Inconclusive
+  ABC acceptance rate: 5.0%
+  Top alternatives:
+    weakly_patrilineal: 0.240
+    weakly_matrilineal: 0.200
+
+Knobbs 3:
+  Best inheritance system: weakly_patrilineal
+  Posterior probability: 0.360
+  Evidence strength: Weak
+  ABC acceptance rate: 5.0%
+  Top alternatives:
+    strongly_patrilineal: 0.280
+    balanced: 0.160
+
+Northwest Cambridge Site IV RB.2C:
+  Best inheritance system: strongly_patrilineal
+  Posterior probability: 0.320
+  Evidence strength: Weak
+  ABC acceptance rate: 5.0%
+  Top alternatives:
+    weakly_patrilineal: 0.200
+    balanced: 0.160
+
+Vicar's Farm:
+  Best inheritance system: weakly_matrilineal
+  Posterior probability: 0.280
+  Evidence strength: Inconclusive
+  ABC acceptance rate: 5.0%
+  Top alternatives:
+    balanced: 0.240
+    strongly_matrilineal: 0.200
+
+
+SYSTEM-SPECIFIC ANALYSIS
+----------------------------------------
+
+strongly_patrilineal:
+  Best match for 3 sites
+  Average posterior probability: 0.236
+  Maximum posterior probability: 0.360
+  Best matching sites: Duxford, Knobbs 2, Northwest Cambridge Site IV RB.2C
+
+weakly_patrilineal:
+  Best match for 1 sites
+  Average posterior probability: 0.204
+  Maximum posterior probability: 0.360
+  Best matching sites: Knobbs 3
+
+balanced:
+  Best match for 1 sites
+  Average posterior probability: 0.164
+  Maximum posterior probability: 0.240
+  Best matching sites: Knobbs 1
+
+weakly_matrilineal:
+  Best match for 1 sites
+  Average posterior probability: 0.191
+  Maximum posterior probability: 0.280
+  Best matching sites: Vicar's Farm
+
+strongly_matrilineal:
+  Best match for 3 sites
+  Average posterior probability: 0.204
+  Maximum posterior probability: 0.320
+  Best matching sites: Arbury, Fenstanton - Cambridge Road, Fenstanton - Dairy Crest
+
+
+STATISTICAL SUMMARY
+----------------------------------------
+Mean acceptance rate: 5.0%
+Mean best posterior: 0.289
+Standard deviation of best posterior: 0.052
+Sites with >50% posterior for best system: 0/9
+
+
+METHODOLOGY
+----------------------------------------
+This analysis used Approximate Bayesian Computation (ABC) to compare
+five inheritance systems against archaeological aDNA data:
+- Strongly patrilineal: 90% male inheritance
+- Weakly patrilineal: 70% male inheritance
+- Balanced: 50% male/female inheritance
+- Weakly matrilineal: 70% female inheritance
+- Strongly matrilineal: 90% female inheritance
+
+Agent-based simulations generated synthetic cemetery data
+under each inheritance system, considering:
+- Haplogroup diversity patterns
+- Kinship relationship ratios
+- Sex-specific burial patterns
+- Population genetics constraints
