@@ -88,27 +88,132 @@ Where n = sample size, p = frequency of each haplogroup
 
 ## ABC Model Selection Framework
 
+### What is ABC Rejection Sampling?
+
+ABC (Approximate Bayesian Computation) is a **likelihood-free** Bayesian method used when the likelihood function is intractable or too complex to compute directly. Instead of calculating exact probabilities, it uses **simulation-based inference**.
+
+### Core ABC Algorithm
+
+```python
+# Step 1: Generate many simulations for each inheritance system
+for system in ['strongly_patrilineal', 'weakly_patrilineal', 'balanced',
+               'weakly_matrilineal', 'strongly_matrilineal']:
+    for i in range(100):  # 100 simulations per system
+        simulation_result = run_simulation(system)
+        sim_statistics = calculate_summary_statistics(simulation_result)
+
+        # Step 2: Calculate distance from observed data
+        distance = calculate_distance(sim_statistics, observed_statistics)
+
+        # Store results
+        distances.append(distance)
+        systems.append(system)
+```
+
 ### Distance Calculation
 
-The model compares simulated statistics to observed archaeological data using weighted Euclidean distance:
+The model compares simulated statistics to observed archaeological data using **weighted Euclidean distance**:
 
 ```python
 def calculate_distance(sim_stats, obs_stats, weights):
     distance = 0.0
+    total_weight = 0.0
     for key, weight in weights.items():
         if key in both datasets:
-            normalized_diff = abs(sim_stats[key] - obs_stats[key]) / abs(obs_stats[key])
+            # Normalize by observed value to handle different scales
+            if obs_stats[key] != 0:
+                normalized_diff = abs(sim_stats[key] - obs_stats[key]) / abs(obs_stats[key])
+            else:
+                normalized_diff = abs(sim_stats[key])
             distance += weight * normalized_diff
-    return distance
+            total_weight += weight
+    return distance / total_weight
 ```
+
+**Key statistics compared with weights:**
+- `y_diversity`: Y-chromosome diversity (weight = 2.0)
+- `mt_diversity`: mtDNA diversity (weight = 2.0)
+- `prop_father_son`: Father-son relationship ratio (weight = 1.5)
+- `prop_mother_daughter`: Mother-daughter relationship ratio (weight = 1.5)
+- `sex_ratio`: Male/female burial ratio (weight = 1.0)
+- `prop_y_matches`: Y-chromosome sharing in kinship pairs (weight = 1.0)
+- `prop_mt_matches`: mtDNA sharing in kinship pairs (weight = 1.0)
+
+### Rejection Step
+
+```python
+# Step 3: Accept only the closest simulations
+epsilon = np.quantile(distances, 0.05)  # Accept top 5% of simulations
+accepted_mask = distances <= epsilon
+accepted_systems = systems[accepted_mask]
+```
+
+**In our analysis:**
+- **500 total simulations** per site (100 per inheritance system)
+- **25 simulations accepted** (5% acceptance rate)
+- **ε (epsilon) threshold** = 5th percentile of distances
 
 ### Posterior Probability Calculation
 
-Using ABC rejection sampling:
-1. Run 100 simulations per inheritance system (500 total per site)
-2. Calculate distance between each simulation and observed data
-3. Accept top 5% of simulations (ε = 5th percentile of distances)
-4. Calculate posterior probabilities from accepted simulations
+```python
+# Step 4: Calculate posterior probabilities from accepted simulations
+for system in unique_systems:
+    # Count how many accepted simulations came from each system
+    count = np.sum(accepted_systems == system)
+    # Posterior = proportion of accepted simulations from this system
+    posteriors[system] = count / len(accepted_systems)
+```
+
+### Example: Duxford Site Analysis
+
+#### Input Data:
+- **500 simulations total** (100 per system)
+- **25 accepted** (ε = 0.2005)
+
+#### Accepted Simulations by System:
+```
+strongly_patrilineal:  9 accepted / 25 total = 0.36 posterior (36%)
+weakly_patrilineal:    7 accepted / 25 total = 0.28 posterior (28%)
+balanced:              2 accepted / 25 total = 0.08 posterior (8%)
+weakly_matrilineal:    2 accepted / 25 total = 0.08 posterior (8%)
+strongly_matrilineal:  5 accepted / 25 total = 0.20 posterior (20%)
+```
+
+#### Bayes Factors:
+```python
+prior_prob = 1.0 / 5 = 0.20  # Uniform prior over 5 systems
+bayes_factors = {
+    'strongly_patrilineal': 0.36 / 0.20 = 1.80,
+    'weakly_patrilineal': 0.28 / 0.20 = 1.40,
+    'balanced': 0.08 / 0.20 = 0.40,
+    'weakly_matrilineal': 0.08 / 0.20 = 0.40,
+    'strongly_matrilineal': 0.20 / 0.20 = 1.00
+}
+```
+
+### Interpretation
+
+The **posterior probability** represents: *"Given the observed archaeological data, what is the probability that this inheritance system generated the patterns we see?"*
+
+For Duxford:
+- **36% chance** the site follows strongly patrilineal inheritance
+- **28% chance** weakly patrilineal
+- **20% chance** strongly matrilineal
+- **8% chance each** for balanced or weakly matrilineal
+
+### Why ABC Rejection Sampling?
+
+#### Advantages:
+1. **Model-free**: No need to specify complex likelihood functions
+2. **Flexible**: Can incorporate any summary statistics
+3. **Realistic**: Uses full simulation model with all complexities
+4. **Interpretable**: Direct comparison of simulation outputs to data
+
+#### Challenges:
+1. **Computational cost**: Requires many simulations
+2. **Curse of dimensionality**: Performance degrades with many statistics
+3. **Choice of summary statistics**: Must capture relevant patterns
+4. **Acceptance rate**: Too strict = few samples, too loose = poor approximation
 
 ## Results Summary
 
