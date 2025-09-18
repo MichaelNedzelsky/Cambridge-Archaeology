@@ -14,6 +14,56 @@ python analyze_adna.py --input combined_grouped.csv --kinship "Cambridshire aDNA
 | Vicar's Farm        | Siblings (1st, x2, 2nd, x2), Cousins (2nd, x2)                                           | 4                | 1.00               | 17               | 0.96               |
 
 
+## A Generative Model of Romano-British Farmstead Demography and Genetics
+
+### Conceptual Framework
+The proposed model, RomanoBritishInheritance, is an Agent-Based Model designed to simulate the key demographic, genetic, and social processes that shaped the Cambridgeshire cemeteries. The model's objective is to generate a "virtual archaeological record"—a simulated cemetery population with associated genetic data—that can be statistically compared against the empirical benchmark. This generative approach provides a principled way to test which underlying social rules are most likely to produce the observed patterns of kinship and genetic diversity.
+
+### Model Components
+The model consists of two primary components: the environment and the agents that inhabit it.
+
+#### The Environment
+The environment is composed of discrete Settlement objects, each parameterized according to the archaeological context provided for the Cambridgeshire sites.
+
+- **name:** A string identifier (e.g., 'Duxford', 'Arbury').
+- **max_population:** An integer representing the estimated maximum carrying capacity of the farmstead (e.g., 30 for Duxford, 50 for Vicar's Farm).
+- **timeline:** A tuple defining the start and end year of the settlement's occupation.
+- **status:** A categorical variable ('low', 'medium', 'high') to allow for status-dependent rules.
+
+#### The Agents
+Each Agent in the simulation represents an individual human with a set of attributes that evolve over their lifetime.
+
+- **id, age, sex:** Basic demographic attributes.
+- **y_haplogroup, mt_haplogroup:** Genetic markers inherited from parents.
+- **is_alive, is_married:** Boolean flags tracking life status.
+- **kin_links:** A dictionary of pointers to the agent's mother, father, spouse, and children, forming the basis of the kin network.
+- **social_status:** A key attribute that determines their social and economic role (e.g., 'inheritor', 'non-inheritor', 'immigrant').
+- **home_settlement:** A pointer to the Settlement object where the agent currently resides.
+
+### Processes and Rules (The Model's Engine)
+The simulation proceeds in discrete annual time-steps, during which a series of demographic and social processes are executed for each agent.
+
+#### Demographics
+Agents age by one year at each time-step. Mortality is governed by an age-structured probability distribution, reflecting higher mortality rates in infancy and old age. Reproduction is a probabilistic event for married female agents within a defined reproductive age range (e.g., 16-45 years).
+
+#### Genetic Inheritance
+Upon birth, an agent's genetic markers are inherited from its parents. A male agent receives his y_haplogroup from his father and mt_haplogroup from his mother. A female agent receives her mt_haplogroup from her mother. The initial population of agents at the start of the simulation is seeded with haplogroups drawn from a frequency distribution representative of the preceding Iron Age population to provide a realistic genetic starting point.
+
+#### Marriage and Residence
+This module is the core of the hypothesis-testing framework. The simulation can be configured to run under one of several residence_rule scenarios:
+
+- **Patrilocal:** A female agent of marriageable age seeks a male partner, prioritizing males within her own settlement. If no suitable partner is found locally, she searches in neighboring settlements. Upon marriage, she moves to her husband's home_settlement.
+- **Matrilocal:** A female agent of marriageable age seeks a male partner. Upon marriage to a male from another settlement, he moves to her home_settlement.
+- **Bilocal/Mixed:** The residence rule is determined probabilistically or is conditioned on agent/settlement attributes. For instance, in a "Romanization" scenario, marriages involving agents from high-status settlements follow a patrilocal rule, while those in low-status settlements follow a matrilocal rule.
+
+#### Inheritance and Burial
+The model explicitly implements the "inheritor burial bias" hypothesis, which posits that individuals who inherit land rights are more likely to be buried in a formal cemetery on that land. This creates the critical filter between the total living population of the simulation and the final, observable cemetery sample.
+
+An inheritance_rule is tied to the residence_rule: in a patrilocal simulation, one son per family is designated the inheritor; in a matrilocal simulation, one daughter is. At the end of the simulation's timeline, the model generates the final cemetery. Agents who died during the occupation period are sampled for inclusion based on their status. Inheritors have a high probability of burial (p_burial_inheritor), while non-inheriting family members and immigrants have a significantly lower probability (p_burial_non_inheritor). This mechanism directly simulates the social process thought to be responsible for the formation of the archaeological record.
+
+#### Data Degradation and Observation
+To ensure a fair comparison between simulated and real data, the model simulates the process of aDNA degradation and incomplete recovery. After the "true" cemetery population is generated, it is passed through an observation filter. This filter first subsamples the buried population to mimic the observed success rate of aDNA testing (approx. 46%). For this subsample, a degradation_function is applied, which probabilistically reduces the specificity of haplogroup assignments (e.g., a "true" haplogroup of 'R1b-P312' might be observed as 'R1b-M269' or simply 'R'). This ensures that the simulated data exhibits the same types of noise and ambiguity as the real archaeological dataset, making the subsequent statistical comparison valid.
+
 The code is organized into three main classes: Agent, Settlement, and Simulation. This modular structure allows for clear separation of concerns and facilitates future extensions.
 
 ## Class Definitions
@@ -36,6 +86,12 @@ To test the central research question, this study employs a structured experimen
 
 ### Summary Statistics for Comparison
 For each simulated cemetery generated by the model, a vector of summary statistics is calculated. These statistics are chosen because they are known to produce distinct signatures under different residence patterns, providing a quantitative basis for comparing the model output to the empirical data.
+
+References:
+- [The Genetic Signature of Sex-Biased Migration in Patrilocal and Matrilocal Populations](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0000973)
+- [Human mtDNA and Y-chromosome Variation Is Correlated with Matrilocal versus Patrilocal Residence](https://www.researchgate.net/publication/11818392_Human_mtDNA_and_Y-chromosome_Variation_Is_Correlated_with_Matrilocal_versus_Patrilocal_Residence)
+- [Oota et al. (2001) - Human mtDNA and Y-chromosome variation](https://os.pennds.org/archaeobib_filestore/pdf_articles/NatGenet/2001_29_1_Ootaetal.pdf)
+- [Reduced Y-Chromosome, but Not Mitochondrial DNA, Diversity in Human Populations from West New Guinea](https://pmc.ncbi.nlm.nih.gov/articles/PMC379223/)
 
 **Stat 1: Y-chromosome Diversity (H_Y):** The haplotype diversity of Y-chromosome haplogroups within each cemetery. In patrilocal systems, related males (sharing a Y-haplogroup) remain in place, reducing local diversity. In matrilocal systems, males immigrate from various locations, increasing local diversity.
 
