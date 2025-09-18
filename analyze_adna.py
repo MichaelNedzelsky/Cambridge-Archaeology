@@ -62,15 +62,46 @@ def parse_kinship_text(text):
             degs.append(seg)
     return rels, degs
 
-def summarize_kin(df_site):
+def summarize_kin(df_site, kinship_data=None):
     """
     Build a compact kinship summary string like:
     'Father-Son (1st, x2), Mother-Son (1st), 2nd, 3rd'
     Uses 'Notes' and (if present) 'Kinship' columns to extract relations and degrees.
+    Also uses kinship_data DataFrame if provided.
     """
     rel_counter = defaultdict(list)  # relation -> list of degrees
     degree_only = Counter()
 
+    # Process kinship data if available
+    if kinship_data is not None and not kinship_data.empty:
+        for _, row in kinship_data.iterrows():
+            # Extract from 'Degree' column
+            degree_text = str(row.get('Degree', ''))
+            if 'First' in degree_text or '1st' in degree_text:
+                deg = '1st'
+            elif 'Second' in degree_text or '2nd' in degree_text:
+                deg = '2nd'
+            elif 'Third' in degree_text or '3rd' in degree_text:
+                deg = '3rd'
+            elif 'Fourth' in degree_text or '4th' in degree_text:
+                deg = '4th'
+            else:
+                deg = ''
+            
+            # Extract from 'Likely relationship' column
+            rel_text = str(row.get('Likely relationship', ''))
+            rels, _ = parse_kinship_text(rel_text)
+            
+            if rels:
+                for r in set(rels):
+                    if deg:
+                        rel_counter[r].append(deg)
+                    else:
+                        rel_counter[r].append('')
+            elif deg:
+                degree_only[deg] += 1
+    
+    # Also process from main dataframe
     text_cols = [c for c in df_site.columns if c.lower() in {"kinship", "notes"}]
 
     for _, row in df_site.iterrows():
@@ -104,10 +135,20 @@ def summarize_kin(df_site):
 def main():
     parser = argparse.ArgumentParser(description="Summarize aDNA kinship pairs and haplogroup diversity by site.")
     parser.add_argument("--input", required=True, help="Path to combined CSV (columns include 'Site' or 'Site Group', 'Y-chr Haplogroup', 'mtDNA Haplogroup', 'Notes').")
+    parser.add_argument("--kinship", help="Path to kinship details CSV (optional).")
     parser.add_argument("--output", required=True, help="Path to write the summary CSV.")
     args = parser.parse_args()
 
     df = pd.read_csv(args.input)
+    
+    # Load kinship data if provided
+    kinship_df = None
+    if args.kinship:
+        # The kinship CSV has multi-row headers, skip first row
+        kinship_df = pd.read_csv(args.kinship, skiprows=1)
+        # Rename the first column to 'Site'
+        kinship_df.columns = ['Site', 'Individual 1', 'Individual 2', 'Y_chr_1', 'Y_chr_2', 'Y_identical',
+                               'mtDNA_1', 'mtDNA_2', 'mt_identical', 'blank', 'Degree', 'Predicted', 'Likely relationship']
 
     # Harmonize site column name
     lower_cols = {c.lower(): c for c in df.columns}
@@ -123,6 +164,10 @@ def main():
 
     rows = []
     for site, g in df.groupby("Site", dropna=False):
+        # Get kinship data for this site if available
+        site_kinship = None
+        if kinship_df is not None:
+            site_kinship = kinship_df[kinship_df['Site'].str.lower() == site.lower()] if isinstance(site, str) else pd.DataFrame()
         # Y-chr: restrict to males if Sex available
         y_vals = g[y_col]
         if sex_col in df.columns:
@@ -136,7 +181,7 @@ def main():
         # mtDNA
         Hm, Nm = haplotype_diversity(g[mt_col].tolist())
 
-        kin_summary = summarize_kin(g)
+        kin_summary = summarize_kin(g, site_kinship)
 
         rows.append({
             "Site": site,
