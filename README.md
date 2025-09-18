@@ -59,6 +59,6 @@ Approximate Bayesian Computation (ABC) is a class of statistical methods ideally
 
 2. **Simulation:** The ABM is run many thousands of times. In each run, a scenario is chosen according to the prior probabilities, and the model is executed. The resulting summary statistics vector is stored.
 
-3. **Comparison:** The Euclidean distance is calculated between the summary statistics vector from the real Cambridgeshire data (Table 2) and the vector from each simulation run.
+3. **Comparison:** The Euclidean distance is calculated between the summary statistics vector from the real data and the vector from each simulation run.
 
 4. **Rejection and Posterior Approximation:** Only the simulation runs whose summary statistics are "close" to the observed statistics (i.e., the distance is below a small tolerance, ε) are accepted. The posterior probability of each scenario is then approximated by its frequency among the accepted runs. For instance, if 70% of the accepted runs were generated under the "Mixed System" scenario, this scenario is assigned a posterior probability of 0.7.
