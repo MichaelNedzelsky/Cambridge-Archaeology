@@ -314,6 +314,77 @@ The methodology demonstrates the power of combining:
 
 This approach can be extended to other archaeological contexts and time periods, providing a quantitative foundation for understanding past social organization through genetic evidence.
 
+## References
+
+### Core ABC Methodology References
+
+#### Foundational Papers:
+
+1. **Beaumont, M. A., Zhang, W., & Balding, D. J. (2002)**
+   - *"Approximate Bayesian computation in population genetics"*
+   - **Genetics, 162(4), 2025-2035**
+   - **Link**: https://doi.org/10.1093/genetics/162.4.2025
+   - **Key**: Original ABC framework for population genetics
+
+2. **Csilléry, K., Blum, M. G., Gaggiotti, O. E., & François, O. (2010)**
+   - *"Approximate Bayesian Computation (ABC) in practice"*
+   - **Trends in Ecology & Evolution, 25(7), 410-418**
+   - **Link**: https://doi.org/10.1016/j.tree.2010.04.001
+   - **Key**: Practical ABC guide with applications
+
+3. **Sunnåker, M., Busetto, A. G., Numminen, E., Corander, J., Foll, M., & Dessimoz, C. (2013)**
+   - *"Approximate Bayesian computation"*
+   - **PLoS Computational Biology, 9(1), e1002803**
+   - **Link**: https://doi.org/10.1371/journal.pcbi.1002803
+   - **Key**: Comprehensive ABC tutorial and review
+
+#### ABC in Archaeological Genetics:
+
+4. **Excoffier, L., Dupanloup, I., Huerta-Sánchez, E., Sousa, V. C., & Foll, M. (2013)**
+   - *"Robust demographic inference from genomic and SNP data"*
+   - **PLoS Genetics, 9(10), e1003905**
+   - **Link**: https://doi.org/10.1371/journal.pgen.1003905
+   - **Key**: ABC for demographic inference in ancient populations
+
+5. **Raynal, L., Marin, J. M., Pudlo, P., Ribatet, M., Robert, C. P., & Estoup, A. (2019)**
+   - *"ABC random forests for Bayesian parameter inference"*
+   - **Bioinformatics, 35(10), 1720-1728**
+   - **Link**: https://doi.org/10.1093/bioinformatics/bty867
+   - **Key**: Modern ABC methods with machine learning
+
+#### Kinship & Social Structure:
+
+6. **Monroy Kuhn, J. M., Jakobsson, M., & Günther, T. (2018)**
+   - *"Estimating genetic kin relationships in prehistoric populations"*
+   - **PLoS One, 13(4), e0195491**
+   - **Link**: https://doi.org/10.1371/journal.pone.0195491
+   - **Key**: Kinship estimation methods in ancient DNA
+
+7. **Scheib, C. L., Hui, R., Rose, A. K., D'Atanasio, E., Inskip, S. A., Dittmar, J., ... & Kivisild, T. (2024)**
+   - *"Low Genetic Impact of the Roman Occupation of Britain in Rural Communities"*
+   - **Molecular Biology and Evolution, 41(9), msae168**
+   - **Link**: https://doi.org/10.1093/molbev/msae168
+   - **Key**: Source of the Cambridge archaeological aDNA data analyzed
+
+#### Population Genetics Theory:
+
+8. **Nei, M. (1987)**
+   - *"Molecular evolutionary genetics"*
+   - **Columbia University Press**
+   - **Key**: Theoretical foundation for haplotype diversity measures
+
+9. **Haak, W., Lazaridis, I., Patterson, N., Rohland, N., Mallick, S., Llamas, B., ... & Reich, D. (2015)**
+   - *"Massive migration from the steppe was a source for Indo-European languages in Europe"*
+   - **Nature, 522(7555), 207-211**
+   - **Link**: https://doi.org/10.1038/nature14317
+   - **Key**: Large-scale ancient DNA population studies methodology
+
+### Software & Implementation:
+
+- **ABCtoolbox**: https://github.com/abctools/abctoolbox
+- **PyABC**: https://pyabc.readthedocs.io/
+- **abc package in R**: https://cran.r-project.org/web/packages/abc/index.html
+
 ---
 
 *Analysis completed using Python implementation with 500 simulations per site and ABC model selection framework. Full source code and data available in this repository.*
