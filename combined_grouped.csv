@@ -1,0 +1,190 @@
+Project ID,Sample ID,Site,Age,DNA tested,Sex,Adult (Y/N/unknown),Y-chr Haplogroup,mtDNA Haplogroup,Confirmed Kin,Sample ID for kin,Notes,Site Group
+Knobbs_1,KNF001,Knobbs 1,Non-Adult,Y,(M),N,,too low coverage,No,,,Knobbs
+Knobbs_2,F.162,Knobbs 2,Adult,N,indet.,Y,,,No,,,Knobbs
+Knobbs_3,F.163,Knobbs 2,Non-Adult,N,indet.,N,,,No,,,Knobbs
+Knobbs_4,F.164,Knobbs 2,Adult,Y,F,Y,,H5,No,,re-used grave of Sk 320,Knobbs
+Knobbs_5,KNF004,Knobbs 1,Adult,Y,F,Y,,H,No,,extra lumbar vertebra - later burial with Sk 319,Knobbs
+Knobbs_6,F.165,Knobbs 2,Adult,N,M,Y,,,No,,reused grave of Sk324,Knobbs
+Knobbs_7,KNF005,Knobbs 1,Adult,Y,(F),Y,,too low coverage,No,,,Knobbs
+Knobbs_8,KNF006,Knobbs 1,Adult,Y,M,Y,R1b-S9294,H1i1,No,,extra lumbar vertabra,Knobbs
+Knobbs_9,F.509,Knobbs 2,Adult,N,M,Y,,,No,,,Knobbs
+Knobbs_10,KNF008,Knobbs 2,Adult,Y,(F),Y,,too low coverage,No,,,Knobbs
+Knobbs_11,F.715,Knobbs 2,Adult,N,indet.,Y,,,No,,,Knobbs
+Knobbs_12,F.930,Knobbs 2,Adult,N,indet.,Y,,,No,,,Knobbs
+Knobbs_13,F.931,Knobbs 2,Adult,N,(M),Y,,,No,,,Knobbs
+Knobbs_14,F.932,Knobbs 2,Adult,N,indet.,Y,,,No,,double burial with 1307,Knobbs
+Knobbs_15,KNF010,Knobbs 2,Adult,Y,M,Y,,too low coverage,No,,double burial with 1306,Knobbs
+Knobbs_16,F.933,Knobbs 2,Adult,N,indet.,Y,,,No,,,Knobbs
+Knobbs_17,F.935,Knobbs 2,Adult,N,indet.,Y,,,No,,,Knobbs
+Knobbs_18,F.935,Knobbs 2,Adult,N,indet.,Y,,,No,,,Knobbs
+Knobbs_19,F.937,Knobbs 2,Adult,N,indet.,Y,,,No,,,Knobbs
+Knobbs_20,F.938,Knobbs 2,Adult,N,indet.,Y,,,No,,,Knobbs
+Knobbs_21,F.939,Knobbs 2,Adult,N,F,Y,,,No,,,Knobbs
+Knobbs_22,F.940,Knobbs 2,Adult,N,indet.,Y,,,No,,,Knobbs
+Knobbs_23,KNF012,Knobbs 2,Adult,Y,F,Y,,too low coverage,No,,,Knobbs
+Knobbs_24,KNF013,Knobbs 1,Adult,Y,F,Y,,H3+152,No,,Double burial with Skeleton 1352,Knobbs
+Knobbs_25,KNF014,Knobbs 1,Adult,Y,M,Y,R1b-Z202,H17,No,,,Knobbs
+Knobbs_26,KNF015,Knobbs 1,Adult,Y,F,Y,,H3,No,,,Knobbs
+Knobbs_27,KNF016,Knobbs 2,Adult,Y,F,Y,,too low coverage,No,,,Knobbs
+Knobbs_28,F.942,Knobbs 3,Adult,N,F,Y,,,No,,Double burial with Skeleton 1338,Knobbs
+Knobbs_29,KNF018,Knobbs 1,Adult,Y,F,Y,,H26,No,,,Knobbs
+Knobbs_30,F.947,Knobbs 2,Unknown,N,indet.,unknown,,,No,,,Knobbs
+Knobbs_31,F.948,Knobbs 2,Adult,N,M?,Y,,,No,,,Knobbs
+Knobbs_32,KNF019,Knobbs 2,Adult,Y,M,Y,,too low coverage,No,,,Knobbs
+Knobbs_33,KNF020,Knobbs 1,Adult,Y,M,Y,R1b-M269,J1c1e,No,,,Knobbs
+Knobbs_34,KNF021,Knobbs 2,Adult,Y,F?,Y,,too low coverage,No,,,Knobbs
+Knobbs_35,F.953,Knobbs 2,Adult,N,M,Y,,,No,,,Knobbs
+Knobbs_36,F.954,Knobbs 2,Adult,N,indet.,Y,,,No,,,Knobbs
+Knobbs_37,F.955,Knobbs 2,Adult,N,indet.,Y,,,No,,,Knobbs
+Knobbs_38,F.956,Knobbs 3,Non-Adult,N,indet.,N,,,No,,,Knobbs
+Knobbs_39,F.957,Knobbs 3,Adult,N,indet.,Y,,,No,,,Knobbs
+Knobbs_40,F.958,Knobbs 3,Adult,N,F,Y,,,No,,,Knobbs
+Knobbs_41,F.959,Knobbs 3,Adult,N,M/,Y,,,No,,,Knobbs
+Knobbs_42,F.960,Knobbs 3,Adult,N,indet.,Y,,,No,,,Knobbs
+Knobbs_43,F.963,Knobbs 3,Unknown,N,indet.,unknown,,,No,,,Knobbs
+Knobbs_44,F.964,Knobbs 3,Adult,N,indet.,Y,,,No,,,Knobbs
+Knobbs_45,F.965,Knobbs 3,Adult,N,M?,Y,,,No,,,Knobbs
+Knobbs_46,F.961,Knobbs 3,Adult,N,M,Y,,,No,,,Knobbs
+Knobbs_47,KNF030,Knobbs 2,Adult,Y,(F),Y,,too low coverage,No,,,Knobbs
+Knobbs_48,KNF031,Knobbs 1,Adult,Y,F,Y,,H2a2a,No,,,Knobbs
+Knobbs_49,F.1098,Knobbs 3,Adult,N,indet.,Y,,,No,,,Knobbs
+Knobbs_50,KNF032,Knobbs 1,Adult,Y,F,Y,,J1c5,No,,,Knobbs
+Knobbs_51,KNF029,Knobbs 2,Adult,Y,F?,Y,,too low coverage,No,,,Knobbs
+Knobbs_52,F.936,Knobbs 2,Unknown,N,n.a.,unknown,,,No,,no bone found - grave only,Knobbs
+Knobbs_53,F.165,Knobbs 2,Adult,N,F,Y,,,No,,disarticulated bone in grave (2nd burial),Knobbs
+Knobbs_54,F.934,Knobbs 2,Unknown,N,n.a.,unknown,,,No,,no bone found - grave only,Knobbs
+Knobbs_55,F.952,Knobbs 2,Unknown,N,n.a.,unknown,,,No,,no bone found - grave only,Knobbs
+Knobbs_56,F.962,Knobbs 3,Unknown,N,n.a.,unknown,,,No,,no bone found - grave only,Knobbs
+NW_Cambridge_1,76,Northwest Cambridge Site IV RB.2C,Adult,N,M?,Y,,,No,,,Northwest Cambridge
+NW_Cambridge_2,500,Northwest Cambridge Site IV RB.2C,Adult,N,Unknown,Y,,,No,,,Northwest Cambridge
+NW_Cambridge_3,NWC002,Northwest Cambridge Site IV RB.2C,Adult,Y,Unknown,Y,,too low coverage,No,,,Northwest Cambridge
+NW_Cambridge_4,510,Northwest Cambridge Site IV RB.2C,Adult,N,F,Y,,,No,,,Northwest Cambridge
+NW_Cambridge_5,579,Northwest Cambridge Site IV RB.2C,Adult,N,Unknown,Y,,,No,,No bone - 2 teeth only,Northwest Cambridge
+NW_Cambridge_6,NWC003,Northwest Cambridge Site IV RB.2C,Adult,Y,M,Y,R1b-M269,U5a2c,No,,,Northwest Cambridge
+NW_Cambridge_7,NWC004,Northwest Cambridge Site IV RB.2C,Adult,Y,M,Y,I--,K1a4a1e,No,,,Northwest Cambridge
+NW_Cambridge_8,NWC005,Northwest Cambridge Site IV RB.2C,Adult,Y,F,Y,,W3a1a,No,,,Northwest Cambridge
+NW_Cambridge_9,658,Northwest Cambridge Site IV RB.2C,Adult,N,Unknown,Y,,,No,,No bone - age from grave size ony,Northwest Cambridge
+NW_Cambridge_10,NWC006,Northwest Cambridge Site IV RB.2C,Adult,Y,F,Y,,U5a2a1,No,,,Northwest Cambridge
+NW_Cambridge_11,NWC007,Northwest Cambridge Site IV RB.2C,Adult,Y,F,Y,,K1a4a1b,No,,,Northwest Cambridge
+NW_Cambridge_12,NWC009,Northwest Cambridge Site IV RB.2C,Adult,Y,M,Y,R1b-P310,U4a,No,,,Northwest Cambridge
+NW_Cambridge_13,856,Northwest Cambridge Site IV RB.2C,Adult,N,M?,Y,,,No,,,Northwest Cambridge
+NW_Cambridge_14,NWC010,Northwest Cambridge Site IV RB.2C,Adult,Y,M,Y,I1-M253,J1c1c,No,,,Northwest Cambridge
+Vicars_1,VIC001,Vicar's Farm,Adult,Y,F,Y,,H11a,No,,,Vicar's Farm
+Vicars_2,VIC002,Vicar's Farm,Adult,Y,F,Y,,H2a2a,No,,,Vicar's Farm
+Vicars_3,VIC003,Vicar's Farm,Adult,Y,M,Y,R1-M173,H26a1,No,,,Vicar's Farm
+Vicars_4,2010,Vicar's Farm,Adult,N,Unknown,Y,,,No,,,Vicar's Farm
+Vicars_5,VIC004,Vicar's Farm,Adult,Y,M,Y,R1b11-CTS9219,H4a1,No,,,Vicar's Farm
+Vicars_6,2016,Vicar's Farm,Adult,N,Unknown,Y,,,No,,,Vicar's Farm
+Vicars_7,2019,Vicar's Farm,Adult,N,Unknown,Y,,,No,,,Vicar's Farm
+Vicars_8,VIC005,Vicar's Farm,Adult,Y,F,Y,,U5a1h,No,,,Vicar's Farm
+Vicars_9,2025,Vicar's Farm,Adult,N,Unknown,Y,,,No,,,Vicar's Farm
+Vicars_10,VIC006,Vicar's Farm,Adult,Y,M,Y,R1b-M269,H1bs,No,,,Vicar's Farm
+Vicars_11,2031,Vicar's Farm,Adult,N,Unknown,Y,,,No,,,Vicar's Farm
+Vicars_12,VIC007,Vicar's Farm,Adult,Y,F,Y,,H3a1,No,,,Vicar's Farm
+Vicars_13,VIC008,Vicar's Farm,Adult,Y,F,Y,,U5a1b1,No,,,Vicar's Farm
+Vicars_14,VIC009,Vicar's Farm,Adult,Y,F,Y,,H18,No,,,Vicar's Farm
+Vicars_15,2042,Vicar's Farm,Non-Adult,N,Unknown,N,,,No,,,Vicar's Farm
+Vicars_16,2044,Vicar's Farm,Non-Adult,N,Unknown,N,,,No,,,Vicar's Farm
+Vicars_17,2046,Vicar's Farm,Adult,N,F,Y,,,No,,,Vicar's Farm
+Vicars_18,VIC010,Vicar's Farm,Adult,Y,F,Y,,H2a3,No,,,Vicar's Farm
+Vicars_19,2052,Vicar's Farm,Adult,N,F,Y,,,No,,,Vicar's Farm
+Vicars_20,VIC012,Vicar's Farm,Adult,Y,F,Y,,U5a2a1,No,,,Vicar's Farm
+Vicars_21,VIC013,Vicar's Farm,Adult,Y,Unknown,Y,,too low coverage,No,,,Vicar's Farm
+Vicars_22,VIC014,Vicar's Farm,Non-Adult,Y,Unknown,N,,too low coverage,No,,,Vicar's Farm
+Vicars_23,2064,Vicar's Farm,Adult,N,Unknown,Y,,,No,,,Vicar's Farm
+Vicars_24,VIC015,Vicar's Farm,Non-Adult,Y,Unknown,N,,too low coverage,No,,,Vicar's Farm
+Vicars_25,2073,Vicar's Farm,Adult,N,Unknown,Y,,,No,,,Vicar's Farm
+Vicars_26,VIC016,Vicar's Farm,Adult,Y,M,Y,R1b-Z290,H1bs,No,,,Vicar's Farm
+Vicars_27,2079,Vicar's Farm,Adult,N,Unknown,Y,,,No,,,Vicar's Farm
+Vicars_28,VIC017,Vicar's Farm,Adult,Y,F,Y,,H3b1b1,No,,,Vicar's Farm
+Vicars_29,VIC018,Vicar's Farm,Adult,Y,F,Y,,H2a3,No,,,Vicar's Farm
+Fenstanton-1,FEN001,Fenstanton - Dairy Crest,Unknown,Y,F,unknown,,H3ap,No,,,Fenstanton
+Fenstanton-2,FEN002,Fenstanton - Dairy Crest,Unknown,Y,F,unknown,,H2a2a,No,,,Fenstanton
+Fenstanton-3,FEN003,Fenstanton - Dairy Crest,Unknown,Y,M,unknown,R1b3-CTS9993,H7a1,No,,,Fenstanton
+Fenstanton-4,FEN004,Fenstanton - Dairy Crest,Unknown,Y,Unknown,unknown,,too low coverage,No,,,Fenstanton
+Fenstanton-5,FEN005,Fenstanton - Dairy Crest,Unknown,Y,F,unknown,,U4a,No,,,Fenstanton
+Fenstanton-6,FEN006,Fenstanton - Dairy Crest,Unknown,Y,Unknown,unknown,,too low coverage,No,,,Fenstanton
+Fenstanton-7,FEN007,Fenstanton - Dairy Crest,Unknown,Y,M,unknown,R-M207,U5b1+16189+@16192,No,,,Fenstanton
+Fenstanton-8,FEN008,Fenstanton - Dairy Crest,Unknown,Y,M,unknown,R1b-P312,H11a,No,,,Fenstanton
+Fenstanton-9,FEN009,Fenstanton - Dairy Crest,Unknown,Y,M,unknown,R1b-M269,W1+119,No,,,Fenstanton
+Fenstanton-10,FEN010,Fenstanton - Dairy Crest,Unknown,Y,F,unknown,,T2b4f,No,,,Fenstanton
+Fenstanton-11,FEN011,Fenstanton - Dairy Crest,Unknown,Y,M,unknown,R1b-M269,H1q,No,,,Fenstanton
+Fenstanton-12,no data,Fenstanton - Dairy Crest,Unknown,N,no data,unknown,,,No,,,Fenstanton
+Fenstanton-13,no data,Fenstanton - Dairy Crest,Unknown,N,no data,unknown,,,No,,,Fenstanton
+Fenstanton-14,no data,Fenstanton - Dairy Crest,Unknown,N,no data,unknown,,,No,,,Fenstanton
+Fenstanton-15,no data,Fenstanton - Dairy Crest,Unknown,N,no data,unknown,,,No,,,Fenstanton
+Fenstanton-16,no data,Fenstanton - Dairy Crest,Unknown,N,no data,unknown,,,No,,,Fenstanton
+Fenstanton-17,no data,Fenstanton - Dairy Crest,Unknown,N,no data,unknown,,,No,,,Fenstanton
+Fenstanton-18,no data,Fenstanton - Dairy Crest,Unknown,N,no data,unknown,,,No,,,Fenstanton
+Fenstanton-19,no data,Fenstanton - Dairy Crest,Unknown,N,no data,unknown,,,No,,,Fenstanton
+Fenstanton-20,no data,Fenstanton - Dairy Crest,Unknown,N,no data,unknown,,,No,,,Fenstanton
+Fenstanton-21,no data,Fenstanton - Dairy Crest,Unknown,N,no data,unknown,,,No,,,Fenstanton
+Fenstanton-22,no data,Fenstanton - Dairy Crest,Unknown,N,no data,unknown,,,No,,,Fenstanton
+Fenstanton-23,no data,Fenstanton - Dairy Crest,Unknown,N,no data,unknown,,,No,,,Fenstanton
+Fenstanton-24,no data,Fenstanton - Dairy Crest,Unknown,N,no data,unknown,,,No,,,Fenstanton
+Fenstanton-25,FEN012,Fenstanton - Cambridge Road,Unknown,Y,M,unknown,R1b5-DF19,J1c1b,No,,,Fenstanton
+Fenstanton-26,FEN013,Fenstanton - Cambridge Road,Unknown,Y,M,unknown,R1b-M269,H1,No,,,Fenstanton
+Fenstanton-27,FEN014,Fenstanton - Cambridge Road,Unknown,Y,F,unknown,,H1,No,,,Fenstanton
+Fenstanton-28,FEN015,Fenstanton - Cambridge Road,Unknown,Y,Unknown,unknown,,too low coverage,No,,,Fenstanton
+Fenstanton-29,FEN017,Fenstanton - Cambridge Road,Unknown,Y,Unknown,unknown,,too low coverage,No,,,Fenstanton
+Fenstanton-30,FEN018,Fenstanton - Cambridge Road,Adult,Y,F,Y,,K1b1a1,No,,,Fenstanton
+Fenstanton-31,FEN019,Fenstanton - Cambridge Road,Adult,Y,F,Y,,U5a2b1a,No,,,Fenstanton
+Fenstanton-32,FEN020,Fenstanton - Cambridge Road,Unknown,Y,Unknown,unknown,,too low coverage,No,,,Fenstanton
+Fenstanton-33,FEN021,Fenstanton - Cambridge Road,Unknown,Y,Unknown,unknown,,too low coverage,No,,,Fenstanton
+Fenstanton-34,no data,Fenstanton - Cambridge Road,Unknown,N,no data,unknown,,,No,,,Fenstanton
+Fenstanton-35,no data,Fenstanton - Cambridge Road,Unknown,N,no data,unknown,,,No,,,Fenstanton
+Fenstanton-36,no data,Fenstanton - Cambridge Road,Unknown,N,no data,unknown,,,No,,,Fenstanton
+Fenstanton-37,no data,Fenstanton - Cambridge Road,Unknown,N,no data,unknown,,,No,,,Fenstanton
+Fenstanton-38,no data,Fenstanton - Cambridge Road,Unknown,N,no data,unknown,,,No,,,Fenstanton
+Fenstanton-39,no data,Fenstanton - Cambridge Road,Unknown,N,no data,unknown,,,No,,,Fenstanton
+Fenstanton-40,no data,Fenstanton - Cambridge Road,Unknown,N,no data,unknown,,,No,,,Fenstanton
+Fenstanton-41,no data,Fenstanton - Cambridge Road,Unknown,N,no data,unknown,,,No,,,Fenstanton
+Fenstanton-42,no data,Fenstanton - Cambridge Road,Unknown,N,no data,unknown,,,No,,,Fenstanton
+Fenstanton-43,no data,Fenstanton - Cambridge Road,Unknown,N,no data,unknown,,,No,,,Fenstanton
+Fenstanton-44,no data,Fenstanton - Cambridge Road,Unknown,N,no data,unknown,,,No,,,Fenstanton
+Fenstanton-45,no data,Fenstanton - Cambridge Road,Unknown,N,no data,unknown,,,No,,,Fenstanton
+Fenstanton-46,no data,Fenstanton - Cambridge Road,Unknown,N,no data,unknown,,,No,,,Fenstanton
+Fenstanton-47,no data,Fenstanton - Cambridge Road,Unknown,N,no data,unknown,,,No,,,Fenstanton
+Fenstanton-48,no data,Fenstanton - Cambridge Road,Unknown,N,no data,unknown,,,No,,,Fenstanton
+Arbury-1,ARB002,Arbury,Unknown,Y,M,unknown,R1b-M269,H17a,No,,,Arbury
+Arbury-2,ARB005,Arbury,Unknown,Y,M,unknown,,too low coverage,No,,,Arbury
+Arbury-3,ARB004,Arbury,Adult,Y,F,Y,,U4b1b2,No,,,Arbury
+Arbury-4,ARB012,Arbury,Unknown,Y,F,unknown,,V+@72,No,,,Arbury
+Arbury-5,ARB003,Arbury,Unknown,Y,M,unknown,R1b-P310,H59a,No,,,Arbury
+Arbury-6,EU 1.3.180,Arbury,Adult,Y,M,Y,untested,untested,No,,,Arbury
+Duxford-1,DUX001,Duxford,Unknown,Y,M,unknown,I2d-Y3723,H1z,No,,,Duxford
+Duxford-2,DUX002,Duxford,Unknown,Y,F,unknown,,H3ap,No,,,Duxford
+Duxford-3,DUX003,Duxford,Unknown,Y,M,unknown,R1b-P310,T2b3b,No,,,Duxford
+Duxford-4,DUX004,Duxford,Unknown,Y,F,unknown,,H6a1b4,No,,,Duxford
+Duxford-5,DUX006,Duxford,Adult,Y,M,Y,G2a-L30,J1c2,No,,,Duxford
+Duxford-6,,Duxford,Adult,N,F,Y,,,No,,,Duxford
+Duxford-7,DUX008,Duxford,Unknown,Y,M,unknown,I2-FGC7113,J1b1a1,No,,,Duxford
+Duxford-8,DUX009,Duxford,Unknown,Y,M,unknown,R1b-L754,U4a,No,,,Duxford
+Duxford-9,DUX010,Duxford,Unknown,Y,M,unknown,R1b18-Y22442,H2a1,No,,,Duxford
+Duxford-10,DUX011,Duxford,Unknown,Y,F,unknown,,H1z,No,,,Duxford
+Duxford-11,DUX012,Duxford,Unknown,Y,F,unknown,,HV0+195,No,,,Duxford
+Duxford-12,DUX013,Duxford,Unknown,Y,M,unknown,R1b-P297,H6a1b4,No,,,Duxford
+Duxford-13,DUX014,Duxford,Unknown,Y,M,unknown,R1b-M269,U5b2c1,No,,,Duxford
+Duxford-14,,Duxford,Unknown,Y,untested,unknown,,,No,,,Duxford
+Duxford-15,,Duxford,Adult,N,M?,Y,,,No,,,Duxford
+Duxford-16,,Duxford,Non-Adult,Y,untested,N,,,No,,,Duxford
+Duxford-17,,Duxford,Adult,Y,untested,Y,,,No,,,Duxford
+Duxford-18,,Duxford,Non-Adult,Y,untested,N,,,No,,,Duxford
+Duxford-19,,Duxford,Adult,Y,untested,Y,,,No,,,Duxford
+Duxford-20,DUX016,Duxford,Unknown,Y,M,unknown,,too low coverage,No,,,Duxford
+Duxford-21,DUX017,Duxford,Unknown,Y,F,unknown,,H64,No,,,Duxford
+Duxford-22,DUX018,Duxford,Unknown,Y,F,unknown,,U4a,No,,,Duxford
+Duxford-23,DUX019,Duxford,Unknown,Y,M,unknown,R1b2-CTS6919,I5a2+16086,No,,,Duxford
+Duxford-24,DUX020,Duxford,Unknown,Y,F,unknown,,H,No,,,Duxford
+Duxford-25,DUX021,Duxford,Unknown,Y,F,unknown,,H7b,No,,,Duxford
+Duxford-26,DUX022,Duxford,Unknown,Y,F,unknown,,H3,No,,,Duxford
+Duxford-27,DUX023,Duxford,Unknown,Y,F,unknown,,K1a+195,No,,,Duxford
+Duxford-28,,Duxford,Adult,Y,untested,Y,,,No,,,Duxford
+Duxford-29,,Duxford,Adult,Y,untested,Y,,,No,,,Duxford
+Duxford-30,,Duxford,Adult,Y,untested,Y,,,No,,,Duxford
+Duxford-31,,Duxford,Adult,Y,untested,Y,,,No,,,Duxford
+Duxford-32,,Duxford,Adult,Y,untested,Y,,,No,,,Duxford
+Duxford-33,,Duxford,Non-Adult,Y,untested,N,,,No,,,Duxford
+Duxford-34,,Duxford,Adult,Y,untested,Y,,,No,,,Duxford
+Duxford-35,,Duxford,Unknown,Y,untested,unknown,,,No,,,Duxford
+Duxford-36,,Duxford,Adult,Y,untested,Y,,,No,,,Duxford

@@ -1,0 +1,19 @@
+,,,Y chromosome,,,Mitochondrial DNA,,,,,,
+Site,Individual 1,Individual 2,Individual 1,Individual 2,Identical,Individual 1,Individual 2,Identical,,Degree,Predicted,Likely relationship
+Arbury,ARB003,ARB002,R1b-P310,R1b-M269,,H59a,H17a,No,,First Degree,Parent-Offspring,Father - Son
+Duxford,461,453,R1b-P297,#N/A,N/A,H6a1b4,H6a1b4,Yes,,First Degree,Parent-Offspring,Mother - Son or Sister - Brother
+Duxford,456,450,I2-FGC7113,I2d-Y3723,,J1b1a1,H1z,No,,First Degree,Parent-Offspring,Father - Son
+Duxford,459,450,#N/A,I2d-Y3723,N/A,H1z,H1z,Yes,,First Degree,Parent-Offspring,Mother - Son
+Duxford,466,457,#N/A,R1b-L754,N/A,U4a,U4a,No,,First Degree,,Mother - Son or Sister - Brother
+Duxford,466,471,#N/A,#N/A,N/A,U4a,K1a+195,No,,Second Degree,,"Half-sisters, grandmother - granddaughter, Aunt - niece, or double 1st cousins"
+Duxford,459,467,#N/A,R1b2-CTS6919,N/A,H1z,I5a2+16086,No,,Third Degree,3rd Degree,"First cousins (or could be: half Uncle/Aunt-Niece/Nephew, great grandparent-child, grand aunt/uncle - niece/nephew, double first cousin once removed, or quadrouple second cousin)"
+Duxford,450,467,I2d-Y3723,R1b2-CTS6919,No,H1z,I5a2+16086,No,,Fourth Degree,4th Degree,
+Fenstanton,FEN014,FEN013,#N/A,R1b-M269,N/A,H1,H1,Yes,,First Degree,,Mother - Son or Sister - Brother
+Fenstanton,FEN008,FEN007,R1b-P312,R-M207,,H11a,U5b1+16189+@16192,No,,Second Degree,,Paternal Uncle - Nephew or Grandfather - Grandson
+Northwest Cambridge,NWC010,NWC007,I1-M253,#N/A,N/A,J1c1c,K1a4a1b,No,,Fourth Degree,4th Degree,
+Northwest Cambridge,NWC010,NWC009,I1-M253,R1b-P310,No,J1c1c,U4a,No,,Second Degree,2nd Degree,Grandfather-Grandson 
+Northwest Cambridge,NWC010,NWC004,I1-M253,I--,Unable to confirm,J1c1c,K1a4a1e,No,,Second Degree,,Paternal Uncle - Nephew or Grandfather - Grandson
+Vicar's Farm,491,484,#N/A,#N/A,N/A,H2a3,H2a3,Yes,,First Degree,,Sisters or Mother-Daughter
+Vicar's Farm,489,480,R1b-Z290,R1b-M269,,H1bs,H1bs,Yes,,First Degree,,Brothers
+Vicar's Farm,483,480,#N/A,R1b-M269,N/A,H18,H1bs,No,,Second Degree,,"Half-siblings, grandparent - grandchild, Aunt/Uncle - Niece/Nephew, or double 1st cousins"
+Vicar's Farm,480,486,R1b-M269,#N/A,N/A,H1bs,too low coverage,Unable to confirm,,Second Degree,,"Half-siblings, grandparent - grandchild, Aunt/Uncle - Niece/Nephew, or double 1st cousins"
