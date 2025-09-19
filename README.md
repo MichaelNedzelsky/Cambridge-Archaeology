@@ -445,42 +445,7 @@ for system in unique_systems:
     posteriors[system] = count / len(accepted_systems)
 ```
 
-### Example: Duxford Site Analysis
 
-#### Input Data:
-- **500 simulations total** (100 per system, configurable via command line)
-- **25 accepted** (ε = 0.2005, top 5% acceptance rate)
-
-#### Accepted Simulations by System:
-```
-strongly_patrilineal:  9 accepted / 25 total = 0.36 posterior (36%)
-weakly_patrilineal:    7 accepted / 25 total = 0.28 posterior (28%)
-balanced:              2 accepted / 25 total = 0.08 posterior (8%)
-weakly_matrilineal:    2 accepted / 25 total = 0.08 posterior (8%)
-strongly_matrilineal:  5 accepted / 25 total = 0.20 posterior (20%)
-```
-
-#### Bayes Factors:
-```python
-prior_prob = 1.0 / 5 = 0.20  # Uniform prior over 5 systems
-bayes_factors = {
-    'strongly_patrilineal': 0.36 / 0.20 = 1.80,
-    'weakly_patrilineal': 0.28 / 0.20 = 1.40,
-    'balanced': 0.08 / 0.20 = 0.40,
-    'weakly_matrilineal': 0.08 / 0.20 = 0.40,
-    'strongly_matrilineal': 0.20 / 0.20 = 1.00
-}
-```
-
-### Interpretation
-
-The **posterior probability** represents: *"Given the observed archaeological data, what is the probability that this inheritance system generated the patterns we see?"*
-
-For Duxford:
-- **36% chance** the site follows strongly patrilineal inheritance
-- **28% chance** weakly patrilineal
-- **20% chance** strongly matrilineal
-- **8% chance each** for balanced or weakly matrilineal
 
 ### Why ABC Rejection Sampling?
 
@@ -496,7 +461,7 @@ For Duxford:
 3. **Choice of summary statistics**: Must capture relevant patterns
 4. **Acceptance rate**: Too strict = few samples, too loose = poor approximation
 
-## Results Summary
+### Example: Duxford Site Analysis
 
 ```
 python run_full_analysis.py 1000 Duxford 
