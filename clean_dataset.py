@@ -12,7 +12,7 @@ def clean_dataset(input_file):
     # Remove records where Adult column is 'N'
     df = df[df['Adult (Y/N/unknown)'].str.strip() != 'N']
 
-    # Create Site column based on Site ID patterns
+    # Update Site ID column with simplified site names
     def map_site(site_id):
         if pd.isna(site_id):
             return None
@@ -30,7 +30,10 @@ def clean_dataset(input_file):
         else:
             return None
 
-    df['Site'] = df['Site ID'].apply(map_site)
+    df['Site ID'] = df['Site ID'].apply(map_site)
+
+    # Remove Sex determination column
+    df = df.drop('Sex determination', axis=1)
 
     # Convert Sample ID for kin to list format
     def parse_kin_ids(kin_str):
