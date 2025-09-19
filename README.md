@@ -35,8 +35,6 @@ NB: The cleaned dataset stores kinship relationships in the "Sample ID for kin" 
   import ast
 
   df = pd.read_csv('cleaned_dataset.csv')
-
-  # Convert string "['VIC016']" to actual list ['VIC016']
   kin_list = ast.literal_eval(df.iloc[0]['Sample ID for kin'])
 
 
