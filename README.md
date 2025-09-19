@@ -583,6 +583,8 @@ Results saved as CSV files:
   - system_aggregates_Duxford.csv (summary by system)
 ```
 
+![Example of results](images/duxford_analysis_existing_data.png)
+
 ## Technical Implementation
 
 ### Core Modules
