@@ -498,50 +498,90 @@ For Duxford:
 
 ## Results Summary
 
-### Site Analysis Results
+```
+python run_full_analysis.py 1000 Duxford 
+================================================================================
+CAMBRIDGE ARCHAEOLOGY INHERITANCE PATTERN ANALYSIS
+================================================================================
 
-| Site | Best System | Posterior Prob | Evidence Strength | Key Features |
-|------|-------------|----------------|-------------------|--------------|
-| **Duxford** | Strongly patrilineal | 0.36 | Weak | High Y & mtDNA diversity, 7 kinship pairs |
-| **Knobbs 3** | Weakly patrilineal | 0.36 | Weak | Small sample, 3M/2F ratio |
-| **Fenstanton-Cambridge Road** | Strongly matrilineal | 0.32 | Weak | High Y diversity, 2M/3F |
-| **Northwest Cambridge** | Strongly patrilineal | 0.32 | Weak | High diversity, 6M/4F |
-| **Vicar's Farm** | Weakly matrilineal | 0.28 | Inconclusive | 4M/12F, mother-daughter pairs |
-| **Arbury** | Strongly matrilineal | 0.24 | Inconclusive | Small sample, father-son pair |
-| **Knobbs 1** | Balanced | 0.24 | Inconclusive | High mtDNA diversity |
-| **Fenstanton-Dairy Crest** | Strongly matrilineal | 0.24 | Inconclusive | Moderate Y diversity |
-| **Knobbs 2** | Strongly patrilineal | 0.24 | Inconclusive | Large sample, low diversity |
+Initializing analysis framework...
 
-### Overall Patterns
+Running analysis for: Duxford
+Simulations per system: 1000
 
-#### System Distribution
-- **Strongly matrilineal**: 3 sites (33%)
-- **Strongly patrilineal**: 3 sites (33%)
-- **Weakly patrilineal**: 1 site (11%)
-- **Weakly matrilineal**: 1 site (11%)
-- **Balanced**: 1 site (11%)
+Analyzing Duxford with 1000 simulations per system...
 
-#### Evidence Quality
-- **Strong evidence**: 0 sites (0%)
-- **Moderate evidence**: 0 sites (0%)
-- **Weak evidence**: 4 sites (44%)
-- **Inconclusive**: 5 sites (56%)
+============================================================
+ANALYZING SITE: Duxford
+============================================================
+Running 1000 simulations per system for Duxford...
+  Using site-specific population: 25 per generation
+  Simulating strongly_patrilineal...
+  Completed 1000 successful simulations for strongly_patrilineal
+  Simulating weakly_patrilineal...
+  Completed 1000 successful simulations for weakly_patrilineal
+  Simulating balanced...
+  Completed 1000 successful simulations for balanced
+  Simulating weakly_matrilineal...
+  Completed 1000 successful simulations for weakly_matrilineal
+  Simulating strongly_matrilineal...
+  Completed 1000 successful simulations for strongly_matrilineal
+Running ABC analysis for Duxford...
 
-### Key Findings
+RESULTS FOR Duxford
+----------------------------------------
+Accepted 250/5000 simulations
+Distance threshold (ε): 0.1665
 
-1. **Mixed Inheritance Landscape**: No single inheritance system dominates across Roman-era Cambridgeshire sites
+Best supported system: strongly_matrilineal
+Posterior probability: 0.252
+Evidence strength: Inconclusive
 
-2. **Site-Specific Patterns**: Different sites show distinct inheritance signatures, suggesting local variation in social organization
+Posterior probabilities:
+  balanced            : 0.224
+  strongly_matrilineal: 0.252
+  strongly_patrilineal: 0.200
+  weakly_matrilineal  : 0.136
+  weakly_patrilineal  : 0.188
 
-3. **Methodological Insights**:
-   - Small sample sizes limit statistical power
-   - Burial bias and aDNA preservation affect results
-   - Intermarriage complicates pure inheritance patterns
+Bayes factors:
+  balanced            : 1.12
+  strongly_matrilineal: 1.26
+  strongly_patrilineal: 1.00
+  weakly_matrilineal  : 0.68
+  weakly_patrilineal  : 0.94
 
-4. **Archaeological Implications**:
-   - Roman period may represent transitional social organization
-   - Local communities maintained distinct kinship practices
-   - Continental European influence mixed with indigenous British patterns
+Results saved to CSV files:
+  - abc_results_Duxford.csv (main ABC results)
+  - observed_stats_Duxford.csv (observed site statistics)
+  - simulation_summaries_Duxford.csv (simulation summaries)
+  - system_aggregates_Duxford.csv (aggregated statistics by system)
+
+================================================================================
+RESULTS FOR Duxford
+================================================================================
+Best inheritance system: strongly_matrilineal
+Posterior probability: 0.252
+Evidence strength: Inconclusive
+ABC acceptance rate: 250/5000 = 5.0%
+
+Posterior probabilities for all systems:
+  balanced                 : 0.224
+  strongly_matrilineal     : 0.252
+  strongly_patrilineal     : 0.200
+  weakly_matrilineal       : 0.136
+  weakly_patrilineal       : 0.188
+
+================================================================================
+ANALYSIS COMPLETE!
+================================================================================
+
+Results saved as CSV files:
+  - abc_results_Duxford.csv (main results)
+  - observed_stats_Duxford.csv (site statistics)
+  - simulation_summaries_Duxford.csv (all simulations)
+  - system_aggregates_Duxford.csv (summary by system)
+```
 
 ## Technical Implementation
 
