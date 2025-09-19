@@ -19,6 +19,7 @@ warnings.filterwarnings('ignore')
 from hypothesis_testing import HypothesisTestingFramework
 from data_preprocessing import load_and_preprocess_data
 from inheritance_statistics import InheritancePatternAnalyzer
+from site_parameters import SITE_PARAMETERS
 
 
 def create_results_visualizations(summary_df: pd.DataFrame):
@@ -196,6 +197,7 @@ def generate_detailed_report(summary_df: pd.DataFrame, framework: HypothesisTest
     report_lines.append("")
     report_lines.append("Agent-based simulations generated synthetic cemetery data")
     report_lines.append("under each inheritance system, considering:")
+    report_lines.append("- Site-specific population sizes (from archaeological evidence)")
     report_lines.append("- Haplogroup diversity patterns")
     report_lines.append("- Kinship relationship ratios")
     report_lines.append("- Sex-specific burial patterns")

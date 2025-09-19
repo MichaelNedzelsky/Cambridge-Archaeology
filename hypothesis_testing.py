@@ -18,6 +18,7 @@ import seaborn as sns
 from data_preprocessing import SiteDataProcessor, load_and_preprocess_data
 from inheritance_statistics import InheritancePatternAnalyzer
 from agent_simulation import BatchSimulation, SimulationParameters, InheritanceSimulator
+from site_parameters import get_site_population, DEFAULT_POPULATION_SIZE
 
 
 class HypothesisTestingFramework:
@@ -308,11 +309,28 @@ class HypothesisTestingFramework:
         """Run batch simulations for all inheritance systems."""
         print(f"Running {n_simulations} simulations per system for {site_name}...")
 
-        # Get site characteristics to inform simulation parameters
-        site_stats = self.processor.calculate_site_statistics(site_name)
+        # Map site names to standardized names used in site_parameters
+        site_map = {
+            'Knobbs 1': 'Knobbs',
+            'Knobbs 2': 'Knobbs',
+            'Knobbs 3': 'Knobbs',
+            'Northwest Cambridge Site IV RB.2C': 'NW_Cambridge',
+            'Vicar\'s Farm': 'Vicar_Farm',
+            'Fenstanton - Dairy Crest': 'Fenstanton',
+            'Fenstanton - Cambridge Road': 'Fenstanton',
+            'Duxford': 'Duxford'
+        }
 
-        # Adjust simulation parameters based on site
-        population_size = max(15, min(30, site_stats.get('total_individuals', 20)))
+        standardized_site = site_map.get(site_name, site_name)
+
+        # Get site-specific population from site_parameters
+        try:
+            population_size = get_site_population(standardized_site)
+            print(f"  Using site-specific population: {population_size} per generation")
+        except ValueError:
+            # Fall back to default if site not found
+            population_size = DEFAULT_POPULATION_SIZE
+            print(f"  Site not found in parameters, using default population: {population_size}")
 
         simulation_results = {}
 
@@ -325,6 +343,7 @@ class HypothesisTestingFramework:
                     inheritance_system=system,
                     generations=4,
                     population_per_generation=population_size,
+                    site_name=standardized_site,  # Pass site name for potential future use
                     burial_probability=0.8,
                     adna_success_rate=0.7
                 )

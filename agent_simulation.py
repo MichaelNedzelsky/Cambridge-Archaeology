@@ -19,6 +19,7 @@ from collections import Counter, defaultdict
 import random
 from inheritance_statistics import InheritancePatternAnalyzer
 from data_preprocessing import SiteDataProcessor
+from site_parameters import get_site_population, DEFAULT_POPULATION_SIZE
 
 
 @dataclass
@@ -45,6 +46,7 @@ class SimulationParameters:
     inheritance_system: str
     generations: int = 4
     population_per_generation: int = 20
+    site_name: Optional[str] = None  # Site name for site-specific population
     burial_probability: float = 0.8
     adna_success_rate: float = 0.7
     inheritance_probability_male: float = 0.5
@@ -62,6 +64,14 @@ class InheritanceSimulator:
         self.next_id = 1
         self.haplogroup_pool_y = params.starting_haplogroups_y.copy()
         self.haplogroup_pool_mt = params.starting_haplogroups_mt.copy()
+
+        # Set site-specific population if site name provided
+        if params.site_name:
+            try:
+                self.params.population_per_generation = get_site_population(params.site_name)
+            except ValueError:
+                # Fall back to default if site not found
+                self.params.population_per_generation = DEFAULT_POPULATION_SIZE
 
         # Set inheritance probabilities based on system
         self._configure_inheritance_system()
