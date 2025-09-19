@@ -10,8 +10,8 @@ ADNA_SUCCESS_RATE = 0.7   # Probability that aDNA can be successfully extracted
 
 # Simulation parameters
 MATING_PROBABILITY = 0.8   # Probability that paired individuals produce offspring
-
-# Simulation parameters
+OFFSPRING_MEAN = 2.5       # Mean number of children per couple
+OFFSPRING_STD = 1.0        # Standard deviation for number of children
 DEFAULT_GENERATIONS = 4    # Number of generations to simulate (cemetery timespan)
 
 # Haplogroup pools for initialization
@@ -110,7 +110,11 @@ if __name__ == "__main__":
     print("\nBurial and Preservation:")
     print(f"  Burial probability: {BURIAL_PROBABILITY:.0%}")
     print(f"  aDNA success rate: {ADNA_SUCCESS_RATE:.0%}")
+
+    print("\nDemographic Parameters:")
     print(f"  Mating probability: {MATING_PROBABILITY:.0%}")
+    print(f"  Mean children per couple: {OFFSPRING_MEAN}")
+    print(f"  Std dev children per couple: {OFFSPRING_STD}")
 
     print("\nSimulation Settings:")
     print(f"  Generations simulated: {DEFAULT_GENERATIONS}")

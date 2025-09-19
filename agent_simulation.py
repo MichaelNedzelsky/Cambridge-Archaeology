@@ -23,7 +23,7 @@ from site_parameters import get_site_population, DEFAULT_POPULATION_SIZE
 from global_parameters import (
     BURIAL_PROBABILITY, ADNA_SUCCESS_RATE, DEFAULT_GENERATIONS,
     DEFAULT_Y_HAPLOGROUPS, DEFAULT_MT_HAPLOGROUPS, MATING_PROBABILITY,
-    get_inheritance_probabilities
+    OFFSPRING_MEAN, OFFSPRING_STD, get_inheritance_probabilities
 )
 
 
@@ -167,7 +167,8 @@ class InheritanceSimulator:
 
     def create_offspring(self, father: Individual, mother: Individual, generation: int) -> List[Individual]:
         """Create offspring from a mated pair."""
-        num_children = random.choices([0, 1, 2, 3, 4], weights=[0.1, 0.2, 0.4, 0.2, 0.1])[0]
+        # Generate number of children from normal distribution
+        num_children = max(0, round(random.gauss(OFFSPRING_MEAN, OFFSPRING_STD)))
         children = []
 
         for _ in range(num_children):
