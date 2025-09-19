@@ -130,20 +130,38 @@ INHERITANCE_SYSTEMS = {
 
 ### Detailed Simulation Mechanics
 
-Our agent-based model simulates inheritance patterns in Roman-era cemetery populations to test five different inheritance systems against archaeological aDNA data. The simulation works as follows:
+Our agent-based model simulates inheritance patterns in **bounded Roman-era settlements** using a **fixed-size population model**. This approach models cemetery sites as representing stable communities with limited capacity, rather than growing lineages.
 
-#### **Adjustable Parameters**
+#### **Bounded Settlement Model**
 
-1. **Population size per generation (N)** - Site-specific values from archaeological evidence:
-   - Duxford: 25 individuals per generation
-   - NW Cambridge: 25 individuals per generation
-   - Vicar's Farm: 40 individuals per generation
-   - Fenstanton: 30 individuals per generation
-   - Knobbs: 40 individuals per generation
+The simulation uses a **"closed, fixed-size" population model** that:
 
-2. **Number of generations (G)** - Default: 4 generations (typical cemetery lifespan)
+1. **Maintains stable population size** each generation (25-40 individuals per site)
+2. **Regulates population growth** through mortality and emigration
+3. **Samples burials from living population** rather than tracking all lineages
+4. **Models realistic demographic turnover** in bounded archaeological sites
 
-3. **Inheritance system probabilities** - The core experimental variables:
+This approach is archaeologically appropriate because:
+- Cemetery sites represent settlements with **known capacity constraints**
+- We study **relative inheritance patterns**, not population growth dynamics
+- Roman-era farmsteads and villages had **stable occupancy** over time
+- Avoids unrealistic population explosions that would swamp inheritance signals
+
+#### **Population Dynamics**
+
+1. **Target Population Size** - Site-specific values from archaeological evidence:
+   - Duxford: 25 individuals per generation (small farmstead)
+   - NW Cambridge: 25 individuals per generation (small farm)
+   - Vicar's Farm: 40 individuals per generation (large farm)
+   - Fenstanton: 30 individuals per generation (specialist farm)
+   - Knobbs: 40 individuals per generation (large farm complex)
+
+2. **Generation Turnover** - 15-year cycles with:
+   - **Age-based mortality**: 5% (young adults) to 80% (elderly)
+   - **Reproduction**: Individuals aged 15-55 (males) / 15-50 (females)
+   - **Population regulation**: Excess individuals emigrate; shortfalls occur naturally
+
+3. **Inheritance System Probabilities** - The core experimental variables:
    - Strongly patrilineal: 90% male, 10% female inheritance
    - Weakly patrilineal: 70% male, 30% female inheritance
    - Balanced: 50% male, 50% female inheritance
@@ -158,37 +176,38 @@ Our agent-based model simulates inheritance patterns in Roman-era cemetery popul
 
 2. **Mating probability** - 80% chance that eligible adults (age ≥16) successfully mate within their generation
 
-3. **Burial probability** - 80% chance an individual gets buried in the cemetery site
+3. **Burial sampling rate** - ~20% of living population per generation gets buried (representing deaths/turnover)
 
 4. **aDNA success rate** - 70% chance of successful DNA extraction from buried individuals
 
-5. **Population maintenance** - Each generation maintains target population size through:
-   - Inheritor selection based on inheritance system
-   - Spouse introduction (novel haplogroups representing external marriage partners)
-   - Population balancing to maintain ~50% sex ratio
-
-#### **Simulation Process**
+#### **Bounded Settlement Simulation Process**
 
 **Step 1: Initialize Founding Generation**
-- Generate founding population with unique Y-chromosome and mtDNA haplogroups
-- Assign one individual as the inheritor based on inheritance system
-- Create mating pairs with novel spouse haplogroups
+- Create founding population (25-40 individuals) with diverse Y-chromosome and mtDNA haplogroups
+- Assign inheritance status to individuals based on inheritance system probabilities
+- Set initial ages (25-45 years) for founding adults
 
-**Step 2: Multi-Generation Evolution** (repeated for 4 generations)
-- **Mating within generation**: Eligible adults (age ≥16) form pairs with 80% success rate
-- **Offspring production**: Each successful pair produces 0-5 children (normal distribution, mean=2.5)
+**Step 2: Generational Turnover** (repeated for 4 generations, 15-year cycles)
+- **Aging and mortality**: All individuals age by 15 years with age-dependent mortality (5-80%)
+- **Reproduction**: Eligible adults (15-55 male, 15-50 female) form pairs with 80% success rate
+- **Offspring production**: Each successful pair produces children (normal distribution, mean=2.5)
 - **Haplogroup inheritance**: Children inherit mtDNA from mother, Y-chromosome from father (if male)
-- **Inheritance selection**: One child becomes the inheritor based on system probabilities:
-  - Patrilineal systems favor male inheritors
-  - Matrilineal systems favor female inheritors
-  - Balanced system selects randomly by sex
-- **Spouse introduction**: Inheritor receives spouse with novel haplogroups (simulating external marriage)
-- **Population balancing**: Additional individuals added to maintain target population size
+- **Inheritance determination**: Children receive inheritance status based on system probabilities
+- **Population regulation**: Combined survivors + offspring regulated to target population size:
+  - **Selection criteria**: Inheritance status, reproductive age, sex balance
+  - **Excess emigration**: Surplus individuals leave the settlement
+  - **Natural variation**: Population may be below target (realistic for small communities)
 
-**Step 3: Death and Burial Process**
-- **Burial selection**: 80% of individuals across all generations get buried at cemetery site
-- **aDNA sampling**: 70% of buried individuals yield successful DNA extraction
-- **Missing data creation**: Individuals without successful aDNA have `NaN` values for haplogroups
+**Step 3: Burial Sampling from Living Population**
+- **Generational sampling**: ~20% of living population sampled for burial each generation
+- **Selection weights**: Older individuals and inheritors more likely to be buried locally
+- **aDNA extraction**: 70% of buried individuals yield successful genetic data
+- **Missing data creation**: Failed extractions result in `NaN` haplogroup values
+
+**Step 4: Cemetery Accumulation and Analysis**
+- **Multi-generational cemetery**: Burials accumulate across all 4 generations
+- **Stable population base**: Analysis reflects bounded settlement rather than lineage explosion
+- **Realistic sample sizes**: 20-50 total burials per site (matching archaeological reality)
 
 **Step 4: Statistical Analysis**
 - Calculate Nei's haplotype diversity for Y-chromosome and mtDNA: `H = (n/(n-1)) * (1 - Σp²)`

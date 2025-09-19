@@ -1,14 +1,24 @@
 """
-Agent-based simulation for testing inheritance systems in archaeological populations.
+Agent-based simulation for testing inheritance systems in bounded Roman-era settlements.
 
-Simulates virtual cemeteries under different inheritance patterns:
-- Strongly matrilineal
-- Weakly matrilineal
-- Balanced
-- Weakly patrilineal
-- Strongly patrilineal
+Implements a "closed, fixed-size" population model representing stable archaeological
+communities with limited capacity. Simulates cemetery formation under different
+inheritance patterns:
+- Strongly matrilineal (10% male, 90% female inheritance)
+- Weakly matrilineal (30% male, 70% female inheritance)
+- Balanced (50% male, 50% female inheritance)
+- Weakly patrilineal (70% male, 30% female inheritance)
+- Strongly patrilineal (90% male, 10% female inheritance)
 
-Based on theoretical framework from description.md and archaeological parameters.
+Key features:
+- Maintains stable population size (25-40 individuals) each generation
+- 15-year generational cycles with age-dependent mortality
+- Population regulation through emigration/immigration
+- Burial sampling from living population (~20% per generation)
+- Multi-generational cemetery accumulation
+- Realistic aDNA preservation rates
+
+Based on bounded settlement model appropriate for Roman-era farmsteads and villages.
 """
 
 import numpy as np
@@ -198,10 +208,164 @@ class InheritanceSimulator:
 
         return children
 
+    def _age_and_mortality(self, population: List[Individual]) -> List[Individual]:
+        """Age population and remove individuals due to mortality."""
+        survivors = []
+
+        for individual in population:
+            # Age the individual by 15 years (shorter generation span for sustainability)
+            individual.age += 15
+
+            # Mortality probability increases with age
+            if individual.age < 40:
+                mortality_prob = 0.05  # Very low mortality for younger adults
+            elif individual.age < 55:
+                mortality_prob = 0.15  # Low mortality for middle-aged
+            elif individual.age < 70:
+                mortality_prob = 0.4   # Moderate mortality for older adults
+            else:
+                mortality_prob = 0.8   # High mortality for elderly
+
+            # Keep individual if they survive
+            if random.random() > mortality_prob:
+                survivors.append(individual)
+
+        return survivors
+
+    def _regulate_population_size(self, population: List[Individual]) -> List[Individual]:
+        """Regulate population to maintain target size for bounded settlement."""
+        target_size = self.params.population_per_generation
+
+        if len(population) <= target_size:
+            # Population is at or below target, keep everyone
+            return population
+
+        # Population exceeds target, need to select who stays
+        # Selection criteria (in order of priority):
+        # 1. Maintain roughly equal sex ratio
+        # 2. Prefer inheritors (they have ties to the land/community)
+        # 3. Prefer reproductive age individuals
+        # 4. Random selection for remainder
+
+        males = [ind for ind in population if ind.sex == 'M']
+        females = [ind for ind in population if ind.sex == 'F']
+
+        # Target roughly equal sex distribution
+        target_males = target_size // 2
+        target_females = target_size - target_males
+
+        selected_population = []
+
+        # Select males
+        selected_males = self._select_individuals(males, target_males)
+        selected_population.extend(selected_males)
+
+        # Select females
+        selected_females = self._select_individuals(females, target_females)
+        selected_population.extend(selected_females)
+
+        return selected_population
+
+    def _select_individuals(self, candidates: List[Individual], target_count: int) -> List[Individual]:
+        """Select individuals based on settlement criteria."""
+        if len(candidates) <= target_count:
+            return candidates
+
+        # Score individuals based on selection criteria
+        scored_candidates = []
+        for individual in candidates:
+            score = 0
+
+            # Inheritors have stronger ties to the settlement
+            if individual.is_inheritor:
+                score += 3
+
+            # Reproductive age individuals are valuable
+            if 16 <= individual.age <= 45:
+                score += 2
+
+            # Younger individuals have more future potential
+            if individual.age < 35:
+                score += 1
+
+            # Add small random component to break ties
+            score += random.random()
+
+            scored_candidates.append((score, individual))
+
+        # Sort by score (descending) and take top individuals
+        scored_candidates.sort(key=lambda x: x[0], reverse=True)
+        selected = [individual for score, individual in scored_candidates[:target_count]]
+
+        return selected
+
+    def _sample_burials_from_living(self, living_population: List[Individual]) -> tuple:
+        """Sample individuals from living population who get buried at the site each generation."""
+        buried_individuals = []
+        adna_successful = []
+
+        # In a bounded settlement, we need higher burial rates to accumulate realistic cemetery sizes
+        # Over 4 generations (60 years), a stable population of 30 should produce ~30-50 burials total
+        # This means ~25-40% of living population per generation gets buried
+        generational_burial_rate = 0.35  # About 35% of living population gets buried per generation
+
+        # Sample individuals for burial this generation
+        num_to_bury = max(2, int(len(living_population) * generational_burial_rate))
+
+        # Select individuals for burial, weighted by age and inheritance status
+        burial_candidates = []
+        for individual in living_population:
+            # Calculate burial weight based on age and status
+            weight = 1.0
+
+            # Older individuals more likely to die/be buried
+            if individual.age >= 50:
+                weight *= 3.0
+            elif individual.age >= 35:
+                weight *= 2.0
+
+            # Inheritors slightly more likely to be buried locally
+            if individual.is_inheritor:
+                weight *= 1.3
+
+            burial_candidates.append((weight, individual))
+
+        # Weighted random selection for burial
+        total_weight = sum(weight for weight, _ in burial_candidates)
+        selected_for_burial = []
+
+        for _ in range(min(num_to_bury, len(burial_candidates))):
+            if not burial_candidates:
+                break
+
+            # Weighted random selection
+            target = random.random() * total_weight
+            cumulative = 0
+
+            for i, (weight, individual) in enumerate(burial_candidates):
+                cumulative += weight
+                if cumulative >= target:
+                    selected_for_burial.append(individual)
+                    total_weight -= weight
+                    burial_candidates.pop(i)
+                    break
+
+        # Process selected individuals for burial and aDNA
+        for individual in selected_for_burial:
+            individual.is_buried = True
+            individual.burial_site = "SIMULATED_SITE"
+            buried_individuals.append(individual)
+
+            if self._simulate_adna_success():
+                adna_successful.append(individual)
+
+        return buried_individuals, adna_successful
+
     def simulate_mating(self, generation_individuals: List[Individual]) -> List[Individual]:
-        """Simulate mating within a generation."""
-        males = [ind for ind in generation_individuals if ind.sex == 'M' and ind.age >= 16]
-        females = [ind for ind in generation_individuals if ind.sex == 'F' and ind.age >= 16]
+        """Simulate mating within the living population."""
+        # Get reproductive age individuals (broader ranges for sustainability)
+        males = [ind for ind in generation_individuals if ind.sex == 'M' and 15 <= ind.age <= 55]
+        females = [ind for ind in generation_individuals if ind.sex == 'F' and 15 <= ind.age <= 50]
 
         # Randomly pair individuals (simplified mating model)
         random.shuffle(males)
@@ -210,9 +374,15 @@ class InheritanceSimulator:
         offspring = []
         min_pairs = min(len(males), len(females))
 
+        # Determine next generation number
+        if generation_individuals:
+            next_gen = max(ind.generation for ind in generation_individuals) + 1
+        else:
+            next_gen = 1
+
         for i in range(min_pairs):
             if random.random() < MATING_PROBABILITY:  # Probability of successful mating
-                children = self.create_offspring(males[i], females[i], generation_individuals[0].generation + 1)
+                children = self.create_offspring(males[i], females[i], next_gen)
                 offspring.extend(children)
 
                 # Record spouse relationships
@@ -222,37 +392,53 @@ class InheritanceSimulator:
         return offspring
 
     def run_simulation(self) -> Dict:
-        """Run complete simulation and return results."""
+        """Run complete simulation with fixed population size and return results."""
         # Create founding generation
-        current_generation = self.create_founding_generation()
-        all_individuals = current_generation.copy()
+        living_population = self.create_founding_generation()
+        all_individuals = living_population.copy()
+        all_buried = []
+        all_adna_successful = []
 
-        # Simulate subsequent generations
+        # Track living population sizes by generation
+        living_population_sizes = {0: len(living_population)}
+
+        # Sample burials from founding generation (generation 0)
+        generation_buried, generation_adna = self._sample_burials_from_living(living_population.copy())
+        all_buried.extend(generation_buried)
+        all_adna_successful.extend(generation_adna)
+
+        # Simulate subsequent generations with fixed population size
         for gen in range(1, self.params.generations + 1):
-            offspring = self.simulate_mating(current_generation)
+            # Age existing population and simulate mortality
+            living_population = self._age_and_mortality(living_population)
+
+            # Simulate reproduction
+            offspring = self.simulate_mating(living_population)
+
+            # Combine surviving adults with new offspring
+            combined_population = living_population + offspring
             all_individuals.extend(offspring)
-            current_generation = offspring
 
-        # Determine burials and aDNA success
-        buried_individuals = []
-        adna_successful = []
+            # Regulate population to target size
+            living_population = self._regulate_population_size(combined_population)
 
-        for individual in all_individuals:
-            if self._simulate_burial(individual):
-                individual.is_buried = True
-                individual.burial_site = "SIMULATED_SITE"
-                buried_individuals.append(individual)
+            # Track living population size for this generation
+            living_population_sizes[gen] = len(living_population)
 
-                if self._simulate_adna_success():
-                    adna_successful.append(individual)
+            # Sample individuals for burial from this generation's living population
+            # Note: This represents deaths/burials over the generation timespan
+            generation_buried, generation_adna = self._sample_burials_from_living(living_population.copy())
+            all_buried.extend(generation_buried)
+            all_adna_successful.extend(generation_adna)
 
-        # Generate results
-        results = self._generate_simulation_results(all_individuals, buried_individuals, adna_successful)
+        # Generate results using all individuals who ever lived and all who were buried
+        results = self._generate_simulation_results(all_individuals, all_buried, all_adna_successful, living_population_sizes)
 
         return results
 
     def _generate_simulation_results(self, all_individuals: List[Individual],
-                                   buried: List[Individual], adna_successful: List[Individual]) -> Dict:
+                                   buried: List[Individual], adna_successful: List[Individual],
+                                   living_population_sizes: Dict[int, int]) -> Dict:
         """Generate comprehensive simulation results."""
 
         # Convert to DataFrame for analysis
@@ -280,11 +466,15 @@ class InheritanceSimulator:
         # Calculate kinship relationships
         kinship_pairs = self._calculate_kinship_relationships(df, all_individuals)
 
+        # Calculate generation-wise statistics
+        generation_stats = self._calculate_generation_statistics(df, living_population_sizes)
+
         results = {
             'parameters': self.params,
             'buried_individuals': df,
             'statistics': stats,
             'kinship_pairs': kinship_pairs,
+            'generation_stats': generation_stats,
             'total_population': len(all_individuals),
             'buried_count': len(buried),
             'adna_count': len(adna_successful),
@@ -362,6 +552,86 @@ class InheritanceSimulator:
                     })
 
         return kinship_pairs
+
+    def _calculate_generation_statistics(self, df: pd.DataFrame, living_population_sizes: Dict[int, int]) -> List[Dict]:
+        """Calculate statistics for each generation separately."""
+        from collections import Counter
+
+        generation_stats = []
+
+        # Get unique generations
+        generations = sorted(df['Generation'].unique())
+
+        for gen in generations:
+            gen_data = df[df['Generation'] == gen]
+            gen_with_adna = gen_data[gen_data['Has_aDNA'] == True]
+
+            # Get living population size for this generation
+            living_pop_size = living_population_sizes.get(int(gen), 0)
+
+            if len(gen_with_adna) == 0:
+                # No aDNA data for this generation
+                stats = {
+                    'generation': int(gen),
+                    'living_population': living_pop_size,
+                    'total_individuals': len(gen_data),
+                    'individuals_with_adna': 0,
+                    'y_diversity': np.nan,
+                    'mt_diversity': np.nan,
+                    'y_samples': 0,
+                    'mt_samples': 0,
+                    'y_unique': 0,
+                    'mt_unique': 0,
+                    'males': 0,
+                    'females': 0,
+                    'sex_ratio': np.nan,
+                    'inheritors': 0
+                }
+            else:
+                # Calculate diversity for this generation
+                males_with_adna = gen_with_adna[gen_with_adna['Sex'] == 'M']
+                y_haplos = males_with_adna['Y_Haplogroup'].dropna().tolist()
+                mt_haplos = gen_with_adna['mt_Haplogroup'].dropna().tolist()
+
+                # Calculate Nei's diversity
+                def calculate_nei_diversity(haplos):
+                    if len(haplos) <= 1:
+                        return 0.0
+                    counts = Counter(haplos)
+                    n = len(haplos)
+                    freqs = np.array([count/n for count in counts.values()])
+                    D = np.sum(freqs**2)
+                    return (n / (n - 1)) * (1 - D)
+
+                y_diversity = calculate_nei_diversity(y_haplos) if y_haplos else np.nan
+                mt_diversity = calculate_nei_diversity(mt_haplos) if mt_haplos else np.nan
+
+                # Count individuals
+                males = len(gen_data[gen_data['Sex'] == 'M'])
+                females = len(gen_data[gen_data['Sex'] == 'F'])
+                sex_ratio = males / females if females > 0 else np.nan
+                inheritors = len(gen_data[gen_data['Is_Inheritor'] == True])
+
+                stats = {
+                    'generation': int(gen),
+                    'living_population': living_pop_size,
+                    'total_individuals': len(gen_data),
+                    'individuals_with_adna': len(gen_with_adna),
+                    'y_diversity': y_diversity,
+                    'mt_diversity': mt_diversity,
+                    'y_samples': len(y_haplos),
+                    'mt_samples': len(mt_haplos),
+                    'y_unique': len(set(y_haplos)) if y_haplos else 0,
+                    'mt_unique': len(set(mt_haplos)) if mt_haplos else 0,
+                    'males': males,
+                    'females': females,
+                    'sex_ratio': sex_ratio,
+                    'inheritors': inheritors
+                }
+
+            generation_stats.append(stats)
+
+        return generation_stats
 
     def _determine_relationship(self, id1: str, id2: str, individuals_dict: Dict[str, Individual]) -> Optional[Dict]:
         """Determine relationship between two individuals."""

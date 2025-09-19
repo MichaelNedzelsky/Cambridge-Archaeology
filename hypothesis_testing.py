@@ -411,12 +411,31 @@ class HypothesisTestingFramework:
             agg_file = f"system_aggregates_{site_clean}.csv"
             agg_stats.to_csv(agg_file)
 
+        # 4. Save generation-wise statistics
+        generation_data = []
+        for system, results in simulation_results.items():
+            for i, result in enumerate(results):
+                if result.get('success', False) and 'generation_stats' in result:
+                    for gen_stat in result['generation_stats']:
+                        gen_row = gen_stat.copy()
+                        gen_row['system'] = system
+                        gen_row['simulation_id'] = i
+                        gen_row['site'] = site_name
+                        generation_data.append(gen_row)
+
+        if generation_data:
+            gen_df = pd.DataFrame(generation_data)
+            gen_file = f"generation_wide_{site_clean}.csv"
+            gen_df.to_csv(gen_file, index=False)
+
         print(f"\nResults saved to CSV files:")
         print(f"  - {main_file} (main ABC results)")
         print(f"  - {obs_file} (observed site statistics)")
         if sim_summaries:
             print(f"  - {sim_file} (simulation summaries)")
             print(f"  - {agg_file} (aggregated statistics by system)")
+        if generation_data:
+            print(f"  - {gen_file} (generation-wise data for detailed analysis)")
 
     def analyze_site(self, site_name: str, n_simulations: int = 100,
                     save_results: bool = True) -> Dict:
