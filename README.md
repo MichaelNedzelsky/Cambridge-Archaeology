@@ -128,7 +128,86 @@ INHERITANCE_SYSTEMS = {
 }
 ```
 
-### Agent Lifecycle
+### Detailed Simulation Mechanics
+
+Our agent-based model simulates inheritance patterns in Roman-era cemetery populations to test five different inheritance systems against archaeological aDNA data. The simulation works as follows:
+
+#### **Adjustable Parameters**
+
+1. **Population size per generation (N)** - Site-specific values from archaeological evidence:
+   - Duxford: 25 individuals per generation
+   - NW Cambridge: 25 individuals per generation
+   - Vicar's Farm: 40 individuals per generation
+   - Fenstanton: 30 individuals per generation
+   - Knobbs: 40 individuals per generation
+
+2. **Number of generations (G)** - Default: 4 generations (typical cemetery lifespan)
+
+3. **Inheritance system probabilities** - The core experimental variables:
+   - Strongly patrilineal: 90% male, 10% female inheritance
+   - Weakly patrilineal: 70% male, 30% female inheritance
+   - Balanced: 50% male, 50% female inheritance
+   - Weakly matrilineal: 30% male, 70% female inheritance
+   - Strongly matrilineal: 10% male, 90% female inheritance
+
+4. **Migration assumption** - **NONE**: Closed population model (no external gene flow)
+
+#### **Fixed Parameters**
+
+1. **Offspring production** - Each mating pair produces offspring drawn from a normal distribution with mean = 2.5 children and standard deviation = 1.0, rounded to nearest integer
+
+2. **Mating probability** - 80% chance that eligible adults (age ≥16) successfully mate within their generation
+
+3. **Burial probability** - 80% chance an individual gets buried in the cemetery site
+
+4. **aDNA success rate** - 70% chance of successful DNA extraction from buried individuals
+
+5. **Population maintenance** - Each generation maintains target population size through:
+   - Inheritor selection based on inheritance system
+   - Spouse introduction (novel haplogroups representing external marriage partners)
+   - Population balancing to maintain ~50% sex ratio
+
+#### **Simulation Process**
+
+**Step 1: Initialize Founding Generation**
+- Generate founding population with unique Y-chromosome and mtDNA haplogroups
+- Assign one individual as the inheritor based on inheritance system
+- Create mating pairs with novel spouse haplogroups
+
+**Step 2: Multi-Generation Evolution** (repeated for 4 generations)
+- **Mating within generation**: Eligible adults (age ≥16) form pairs with 80% success rate
+- **Offspring production**: Each successful pair produces 0-5 children (normal distribution, mean=2.5)
+- **Haplogroup inheritance**: Children inherit mtDNA from mother, Y-chromosome from father (if male)
+- **Inheritance selection**: One child becomes the inheritor based on system probabilities:
+  - Patrilineal systems favor male inheritors
+  - Matrilineal systems favor female inheritors
+  - Balanced system selects randomly by sex
+- **Spouse introduction**: Inheritor receives spouse with novel haplogroups (simulating external marriage)
+- **Population balancing**: Additional individuals added to maintain target population size
+
+**Step 3: Death and Burial Process**
+- **Burial selection**: 80% of individuals across all generations get buried at cemetery site
+- **aDNA sampling**: 70% of buried individuals yield successful DNA extraction
+- **Missing data creation**: Individuals without successful aDNA have `NaN` values for haplogroups
+
+**Step 4: Statistical Analysis**
+- Calculate Nei's haplotype diversity for Y-chromosome and mtDNA: `H = (n/(n-1)) * (1 - Σp²)`
+- Analyze kinship patterns (father-son, mother-daughter ratios)
+- Compute sex ratios and demographic statistics
+- Generate summary statistics for ABC comparison
+
+#### **Key Model Features**
+
+**Realistic Missing Data**: The two-stage process (burial → aDNA success) creates ~44% missing genetic data, matching archaeological reality where many individuals lack genetic information.
+
+**Inheritance-Driven Patterns**: Different inheritance systems produce distinct genetic signatures:
+- **Patrilineal**: Low Y-chromosome diversity (few male lineages), higher mtDNA diversity (many female lineages)
+- **Matrilineal**: High Y-chromosome diversity (many male lineages), lower mtDNA diversity (few female lineages)
+- **Balanced**: Intermediate diversity levels for both marker types
+
+**No Migration**: Following archaeological guidance, the model assumes closed populations with no external migration, focusing purely on inheritance pattern effects.
+
+**Agent Lifecycle Overview**
 
 ```mermaid
 graph TD
