@@ -37,3 +37,4 @@ abc_results_*.pkl
 # Local analysis files (not for repository)
 weight_explanation.py
 description.md
+inheritance_differences.py
