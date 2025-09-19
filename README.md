@@ -29,14 +29,15 @@ NB: The cleaned dataset stores kinship relationships in the "Sample ID for kin" 
   - "['VIC016']" for single relationship
   - "['NWC007', 'NWC009', 'NWC004']" for multiple relationships
 
-  When pandas reads the CSV, these values are loaded as strings, not actual Python lists. To convert them back to usable list objects, you use ast.literal_eval():
+  When pandas reads the CSV, these values are loaded as strings, not actual Python lists. To convert them back to usable list objects, you use `ast.literal_eval()`:
 
+```python
   import pandas as pd
   import ast
 
   df = pd.read_csv('cleaned_dataset.csv')
   kin_list = ast.literal_eval(df.iloc[0]['Sample ID for kin'])
-
+```
 
 ## Overview
 
