@@ -9,6 +9,9 @@ BURIAL_PROBABILITY = 0.8  # Probability that an individual is buried in the ceme
 ADNA_SUCCESS_RATE = 0.7   # Probability that aDNA can be successfully extracted
 
 # Simulation parameters
+MATING_PROBABILITY = 0.8   # Probability that paired individuals produce offspring
+
+# Simulation parameters
 DEFAULT_GENERATIONS = 4    # Number of generations to simulate (cemetery timespan)
 
 # Haplogroup pools for initialization
@@ -109,6 +112,7 @@ if __name__ == "__main__":
     print("\nBurial and Preservation:")
     print(f"  Burial probability: {BURIAL_PROBABILITY:.0%}")
     print(f"  aDNA success rate: {ADNA_SUCCESS_RATE:.0%}")
+    print(f"  Mating probability: {MATING_PROBABILITY:.0%}")
 
     print("\nSimulation Settings:")
     print(f"  Generations simulated: {DEFAULT_GENERATIONS}")

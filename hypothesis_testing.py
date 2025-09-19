@@ -353,7 +353,7 @@ class HypothesisTestingFramework:
         return simulation_results
 
     def save_results_to_csv(self, site_name: str, abc_results: Dict, simulation_results: Dict):
-        """Save analysis results to CSV files instead of pickle."""
+        """Save analysis results to CSV files."""
         site_clean = site_name.replace(' ', '_').replace('/', '_')
 
         # 1. Save main ABC results

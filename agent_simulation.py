@@ -22,7 +22,7 @@ from data_preprocessing import SiteDataProcessor
 from site_parameters import get_site_population, DEFAULT_POPULATION_SIZE
 from global_parameters import (
     BURIAL_PROBABILITY, ADNA_SUCCESS_RATE, DEFAULT_GENERATIONS,
-    DEFAULT_Y_HAPLOGROUPS, DEFAULT_MT_HAPLOGROUPS,
+    DEFAULT_Y_HAPLOGROUPS, DEFAULT_MT_HAPLOGROUPS, MATING_PROBABILITY,
     get_inheritance_probabilities
 )
 
@@ -210,7 +210,7 @@ class InheritanceSimulator:
         min_pairs = min(len(males), len(females))
 
         for i in range(min_pairs):
-            if random.random() < 0.8:  # 80% chance of mating
+            if random.random() < MATING_PROBABILITY:  # Probability of successful mating
                 children = self.create_offspring(males[i], females[i], generation_individuals[0].generation + 1)
                 offspring.extend(children)
 
@@ -417,10 +417,8 @@ class BatchSimulation:
             for i in range(self.n_simulations):
                 params = SimulationParameters(
                     inheritance_system=system,
-                    generations=4,
-                    population_per_generation=20,
-                    burial_probability=0.8,
-                    adna_success_rate=0.7
+                    population_per_generation=20
+                    # Other parameters use defaults from global_parameters
                 )
 
                 try:
