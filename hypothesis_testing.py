@@ -19,6 +19,10 @@ from data_preprocessing import SiteDataProcessor, load_and_preprocess_data
 from inheritance_statistics import InheritancePatternAnalyzer
 from agent_simulation import BatchSimulation, SimulationParameters, InheritanceSimulator
 from site_parameters import get_site_population, DEFAULT_POPULATION_SIZE
+from global_parameters import (
+    DISTANCE_WEIGHTS, ABC_ACCEPTANCE_QUANTILE,
+    DEFAULT_SIMULATIONS_PER_SYSTEM, INHERITANCE_SYSTEMS
+)
 
 
 class HypothesisTestingFramework:
@@ -28,10 +32,7 @@ class HypothesisTestingFramework:
                  kinship_file: str = 'Cambridshire aDNA summary data.xlsx - DNA kinship details.csv'):
         self.processor = load_and_preprocess_data(data_file, kinship_file)
         self.analyzer = InheritancePatternAnalyzer(self.processor)
-        self.inheritance_systems = [
-            'strongly_patrilineal', 'weakly_patrilineal', 'balanced',
-            'weakly_matrilineal', 'strongly_matrilineal'
-        ]
+        self.inheritance_systems = list(INHERITANCE_SYSTEMS.keys())
 
     def calculate_summary_statistics(self, simulation_result: Dict) -> Dict:
         """Calculate summary statistics from simulation result."""
@@ -160,16 +161,7 @@ class HypothesisTestingFramework:
     def calculate_distance(self, sim_stats: Dict, obs_stats: Dict, weights: Optional[Dict] = None) -> float:
         """Calculate weighted distance between simulated and observed statistics."""
         if weights is None:
-            weights = {
-                'y_diversity': 2.0,
-                'mt_diversity': 2.0,
-                'prop_father_son': 1.5,
-                'prop_mother_daughter': 1.5,
-                'sex_ratio': 1.0,
-                'prop_y_matches': 1.0,
-                'prop_mt_matches': 1.0,
-                'prop_inheritors': 0.5,
-            }
+            weights = DISTANCE_WEIGHTS.copy()
 
         distance = 0.0
         total_weight = 0.0
@@ -198,7 +190,7 @@ class HypothesisTestingFramework:
         return distance / total_weight if total_weight > 0 else float('inf')
 
     def run_abc_analysis(self, site_name: str, simulation_results: Dict,
-                        epsilon: Optional[float] = None, quantile: float = 0.05) -> Dict:
+                        epsilon: Optional[float] = None, quantile: float = ABC_ACCEPTANCE_QUANTILE) -> Dict:
         """
         Run ABC analysis for a specific site.
 
@@ -341,11 +333,9 @@ class HypothesisTestingFramework:
             for i in range(n_simulations):
                 params = SimulationParameters(
                     inheritance_system=system,
-                    generations=4,
                     population_per_generation=population_size,
-                    site_name=standardized_site,  # Pass site name for potential future use
-                    burial_probability=0.8,
-                    adna_success_rate=0.7
+                    site_name=standardized_site  # Pass site name for potential future use
+                    # Other parameters use defaults from global_parameters
                 )
 
                 try:

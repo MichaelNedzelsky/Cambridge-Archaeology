@@ -20,6 +20,11 @@ import random
 from inheritance_statistics import InheritancePatternAnalyzer
 from data_preprocessing import SiteDataProcessor
 from site_parameters import get_site_population, DEFAULT_POPULATION_SIZE
+from global_parameters import (
+    BURIAL_PROBABILITY, ADNA_SUCCESS_RATE, DEFAULT_GENERATIONS,
+    DEFAULT_Y_HAPLOGROUPS, DEFAULT_MT_HAPLOGROUPS,
+    get_inheritance_probabilities
+)
 
 
 @dataclass
@@ -44,15 +49,15 @@ class Individual:
 class SimulationParameters:
     """Parameters for inheritance system simulation."""
     inheritance_system: str
-    generations: int = 4
+    generations: int = field(default=DEFAULT_GENERATIONS)
     population_per_generation: int = 20
     site_name: Optional[str] = None  # Site name for site-specific population
-    burial_probability: float = 0.8
-    adna_success_rate: float = 0.7
+    burial_probability: float = field(default=BURIAL_PROBABILITY)
+    adna_success_rate: float = field(default=ADNA_SUCCESS_RATE)
     inheritance_probability_male: float = 0.5
     inheritance_probability_female: float = 0.5
-    starting_haplogroups_y: List[str] = field(default_factory=lambda: ['R1b', 'I2', 'G2a'])
-    starting_haplogroups_mt: List[str] = field(default_factory=lambda: ['H', 'U5', 'K1', 'J1', 'T2'])
+    starting_haplogroups_y: List[str] = field(default_factory=lambda: DEFAULT_Y_HAPLOGROUPS.copy())
+    starting_haplogroups_mt: List[str] = field(default_factory=lambda: DEFAULT_MT_HAPLOGROUPS.copy())
 
 
 class InheritanceSimulator:
@@ -80,23 +85,13 @@ class InheritanceSimulator:
         """Configure inheritance probabilities based on system type."""
         system = self.params.inheritance_system
 
-        if system == "strongly_patrilineal":
-            self.params.inheritance_probability_male = 0.9
-            self.params.inheritance_probability_female = 0.1
-        elif system == "weakly_patrilineal":
-            self.params.inheritance_probability_male = 0.7
-            self.params.inheritance_probability_female = 0.3
-        elif system == "balanced":
-            self.params.inheritance_probability_male = 0.5
-            self.params.inheritance_probability_female = 0.5
-        elif system == "weakly_matrilineal":
-            self.params.inheritance_probability_male = 0.3
-            self.params.inheritance_probability_female = 0.7
-        elif system == "strongly_matrilineal":
-            self.params.inheritance_probability_male = 0.1
-            self.params.inheritance_probability_female = 0.9
-        else:
-            raise ValueError(f"Unknown inheritance system: {system}")
+        try:
+            male_prob, female_prob = get_inheritance_probabilities(system)
+            self.params.inheritance_probability_male = male_prob
+            self.params.inheritance_probability_female = female_prob
+        except ValueError as e:
+            # Re-raise with more context
+            raise ValueError(f"Failed to configure inheritance system: {e}")
 
     def _generate_id(self) -> str:
         """Generate unique individual ID."""
