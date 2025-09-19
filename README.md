@@ -595,18 +595,7 @@ Results saved as CSV files:
 
 ### Validation & Testing
 
-The model was validated through:
-- Theoretical predictions matching expected diversity patterns
-- Sensitivity analysis of key parameters
-- Cross-validation with known kinship relationships
-- Comparison with published archaeological interpretations
-
-### Computational Performance
-
-- **Total simulations**: 4,500 (500 per site × 9 sites)
-- **Runtime**: ~15 minutes for complete analysis
-- **Memory usage**: ~20MB of simulation results
-- **Acceptance rate**: 5% (25 simulations per site accepted)
+TODO 
 
 ## Limitations and Future Work
 
@@ -614,8 +603,7 @@ The model was validated through:
 
 1. **Sample Size**: Many sites have limited aDNA samples
 2. **Temporal Resolution**: Cannot distinguish inheritance changes over time
-3. **Burial Bias**: Not all individuals were buried at cemetery sites
-4. **Closed Population**: Assumes no external migration or gene flow
+3. **Closed Population**: Assumes no external migration or gene flow
 
 ### Future Improvements
 
@@ -623,17 +611,6 @@ The model was validated through:
 2. **Spatial Analysis**: Regional inheritance pattern modeling
 3. **Environmental Factors**: Climate and resource effects on social organization
 4. **Integration**: Combine with isotope, artifact, and burial data
-
-## Conclusion
-
-This agent-based model provides a rigorous computational framework for testing inheritance hypotheses against archaeological aDNA data. The results reveal a complex landscape of inheritance patterns in Roman-era Cambridgeshire, with evidence for both patrilineal and matrilineal systems operating at different sites.
-
-The methodology demonstrates the power of combining:
-- Agent-based modeling for realistic population dynamics
-- Approximate Bayesian Computation for statistical inference
-- Archaeological genetics for empirical validation
-
-This approach can be extended to other archaeological contexts and time periods, providing a quantitative foundation for understanding past social organization through genetic evidence.
 
 ## References
 
