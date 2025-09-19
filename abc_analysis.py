@@ -219,7 +219,7 @@ def compare_statistics(simulation_results, observed_stats):
     return comparison_df
 
 
-def run_abc_analysis(batch_file, observed_data_file='combined_grouped.csv',
+def run_abc_analysis(batch_file, observed_data_file='cleaned_dataset.csv',
                      epsilon=None, quantile=0.05):
     """
     Run complete ABC analysis on simulation results.
@@ -299,7 +299,7 @@ if __name__ == "__main__":
 
             results = run_abc_analysis(
                 latest_batch,
-                observed_data_file='combined_grouped.csv',
+                observed_data_file='cleaned_dataset.csv',
                 quantile=0.05  # Accept top 5% of simulations
             )
         else:

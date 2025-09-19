@@ -228,7 +228,6 @@ The main analysis script supports flexible execution options:
 python run_full_analysis.py                    # All sites, default iterations (100)
 python run_full_analysis.py 50                 # All sites, 50 iterations
 python run_full_analysis.py 200 Duxford        # Only Duxford, 200 iterations
-python run_full_analysis.py 100 "Knobbs"     # Only Knobbs 1, 100 iterations
 ```
 
 **Available sites:**

@@ -29,7 +29,7 @@ from global_parameters import (
 class HypothesisTestingFramework:
     """Comprehensive framework for testing inheritance hypotheses."""
 
-    def __init__(self, data_file: str = 'combined_grouped.csv',
+    def __init__(self, data_file: str = 'cleaned_dataset.csv',
                  kinship_file: str = 'Cambridshire aDNA summary data.xlsx - DNA kinship details.csv'):
         self.processor = load_and_preprocess_data(data_file, kinship_file)
         self.analyzer = InheritancePatternAnalyzer(self.processor)

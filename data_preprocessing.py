@@ -37,16 +37,16 @@ class SiteDataProcessor:
     def _standardize_columns(self):
         """Standardize column names for consistent access."""
         # Create mapping of lowercase column names to actual names
-        self.col_map = {col.lower().replace(' ', '_').replace('-', '_'): col
+        self.col_map = {col.lower().strip().replace(' ', '_').replace('-', '_'): col
                        for col in self.data_df.columns}
 
         # Essential columns
-        self.site_col = self._get_column(['site', 'site_group'])
+        self.site_col = self._get_column(['site', 'site_group', 'site_id'])
         self.sex_col = self._get_column(['sex'])
-        self.age_col = self._get_column(['age'])
+        self.age_col = self._get_column(['age', 'site_age_(ce)'])
         self.y_chr_col = self._get_column(['y_chr_haplogroup', 'y_chromosome'])
         self.mt_dna_col = self._get_column(['mtdna_haplogroup', 'mitochondrial_dna'])
-        self.adult_col = self._get_column(['adult'])
+        self.adult_col = self._get_column(['adult', 'adult_(y/n/unknown)'])
         self.sample_id_col = self._get_column(['sample_id'])
 
     def _get_column(self, possible_names: List[str]) -> Optional[str]:
@@ -231,7 +231,7 @@ class SiteDataProcessor:
         return pd.DataFrame(summaries)
 
 
-def load_and_preprocess_data(data_file: str = 'combined_grouped.csv',
+def load_and_preprocess_data(data_file: str = 'cleaned_dataset.csv',
                            kinship_file: str = 'Cambridshire aDNA summary data.xlsx - DNA kinship details.csv') -> SiteDataProcessor:
     """Convenience function to load and preprocess the data."""
     return SiteDataProcessor(data_file, kinship_file)
