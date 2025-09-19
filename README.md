@@ -515,46 +515,47 @@ Running ABC analysis for Duxford...
 RESULTS FOR Duxford
 ----------------------------------------
 Accepted 250/5000 simulations
-Distance threshold (ε): 0.1665
+Distance threshold (ε): 0.2427
 
-Best supported system: strongly_matrilineal
-Posterior probability: 0.252
+Best supported system: weakly_matrilineal
+Posterior probability: 0.236
 Evidence strength: Inconclusive
 
 Posterior probabilities:
   balanced            : 0.224
-  strongly_matrilineal: 0.252
-  strongly_patrilineal: 0.200
-  weakly_matrilineal  : 0.136
-  weakly_patrilineal  : 0.188
+  strongly_matrilineal: 0.184
+  strongly_patrilineal: 0.172
+  weakly_matrilineal  : 0.236
+  weakly_patrilineal  : 0.184
 
 Bayes factors:
   balanced            : 1.12
-  strongly_matrilineal: 1.26
-  strongly_patrilineal: 1.00
-  weakly_matrilineal  : 0.68
-  weakly_patrilineal  : 0.94
+  strongly_matrilineal: 0.92
+  strongly_patrilineal: 0.86
+  weakly_matrilineal  : 1.18
+  weakly_patrilineal  : 0.92
 
 Results saved to CSV files:
   - abc_results_Duxford.csv (main ABC results)
   - observed_stats_Duxford.csv (observed site statistics)
   - simulation_summaries_Duxford.csv (simulation summaries)
   - system_aggregates_Duxford.csv (aggregated statistics by system)
+  - generation_wide_Duxford.csv (generation-wise data for detailed analysis)
 
 ================================================================================
 RESULTS FOR Duxford
 ================================================================================
-Best inheritance system: strongly_matrilineal
-Posterior probability: 0.252
+Best inheritance system: weakly_matrilineal
+Posterior probability: 0.236
 Evidence strength: Inconclusive
 ABC acceptance rate: 250/5000 = 5.0%
 
 Posterior probabilities for all systems:
   balanced                 : 0.224
-  strongly_matrilineal     : 0.252
-  strongly_patrilineal     : 0.200
-  weakly_matrilineal       : 0.136
-  weakly_patrilineal       : 0.188
+  strongly_matrilineal     : 0.184
+  strongly_patrilineal     : 0.172
+  weakly_matrilineal       : 0.236
+  weakly_patrilineal       : 0.184
 
 ================================================================================
 ANALYSIS COMPLETE!
