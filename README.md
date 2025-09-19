@@ -79,17 +79,53 @@ In a matrilocal system, women stay and men move in → low mtDNA diversity, high
 
 ## Implementation Details
 
-### Simulation Parameters
+### Configuration Files
+
+The model uses two configuration files to manage parameters:
+
+#### Site-Specific Parameters (`site_parameters.py`)
+Population sizes per generation based on archaeological evidence:
 
 ```python
-class SimulationParameters:
-    inheritance_system: str                    # One of 5 systems above
-    generations: int = 4                       # Cemetery timespan
-    population_per_generation: int = 20        # Base population size
-    burial_probability: float = 0.8            # Chance of burial at site
-    adna_success_rate: float = 0.7            # DNA extraction success
-    starting_haplogroups_y: List[str]          # Founder Y-chromosomes
-    starting_haplogroups_mt: List[str]         # Founder mtDNA
+SITE_PARAMETERS = {
+    'Duxford': {'population_per_generation': 25},      # 20-30 people
+    'NW_Cambridge': {'population_per_generation': 25}, # 20-30 people
+    'Vicar_Farm': {'population_per_generation': 40},   # 30-50 people
+    'Fenstanton': {'population_per_generation': 30},   # up to 30 people
+    'Knobbs': {'population_per_generation': 40}        # 30-50 people
+}
+```
+
+#### Global Parameters (`global_parameters.py`)
+Simulation-wide settings and ABC configuration:
+
+```python
+# Burial and preservation
+BURIAL_PROBABILITY = 0.8    # Probability of burial in cemetery
+ADNA_SUCCESS_RATE = 0.7     # DNA extraction success rate
+
+# ABC model selection
+ABC_ACCEPTANCE_QUANTILE = 0.05  # Top 5% of simulations accepted
+DEFAULT_SIMULATIONS_PER_SYSTEM = 100
+
+# Distance weights for ABC comparison
+DISTANCE_WEIGHTS = {
+    'y_diversity': 2.0,           # High importance - genetic discriminator
+    'mt_diversity': 2.0,          # High importance - genetic discriminator
+    'prop_father_son': 1.5,       # Medium - kinship evidence
+    'prop_mother_daughter': 1.5,  # Medium - kinship evidence
+    'sex_ratio': 1.0,             # Standard - demographic info
+    # ... additional weights
+}
+
+# Inheritance system definitions
+INHERITANCE_SYSTEMS = {
+    'strongly_patrilineal': {'male_prob': 0.9, 'female_prob': 0.1},
+    'weakly_patrilineal': {'male_prob': 0.7, 'female_prob': 0.3},
+    'balanced': {'male_prob': 0.5, 'female_prob': 0.5},
+    'weakly_matrilineal': {'male_prob': 0.3, 'female_prob': 0.7},
+    'strongly_matrilineal': {'male_prob': 0.1, 'female_prob': 0.9}
+}
 ```
 
 ### Agent Lifecycle
@@ -127,6 +163,79 @@ Where n = sample size, p = frequency of each haplogroup
 - Sex ratios in burials
 - Inheritance patterns by sex
 - Haplogroup sharing within sites
+
+## Running the Analysis
+
+### Command-Line Interface
+
+The main analysis script supports flexible execution options:
+
+```bash
+# Usage: python run_full_analysis.py [iterations] [site_name]
+
+# Examples:
+python run_full_analysis.py                    # All sites, default iterations (100)
+python run_full_analysis.py 50                 # All sites, 50 iterations
+python run_full_analysis.py 200 Duxford        # Only Duxford, 200 iterations
+python run_full_analysis.py 100 "Knobbs 1"     # Only Knobbs 1, 100 iterations
+```
+
+**Available sites:**
+- `Duxford` - Early Roman farmstead (100-125 CE)
+- `NW_Cambridge` - Mid-Roman cemetery (150-250 CE)
+- `Vicar_Farm` - Late Roman farm (270-420 CE)
+- `Fenstanton` - Large farm complex (40-400 CE)
+- `Knobbs` - Late Roman farm (275-400 CE)
+
+### Quick Testing
+
+For rapid testing and validation:
+
+```bash
+# Test single site with few iterations (fast)
+python run_full_analysis.py 10 Duxford
+
+# Test parameter changes
+python run_full_analysis.py 25 "Vicar_Farm"
+```
+
+### Output Files
+
+The analysis generates multiple CSV files for each site analyzed:
+
+#### 1. Main Results (`abc_results_[site].csv`)
+- Best inheritance system and evidence strength
+- Posterior probabilities for all 5 systems
+- Bayes factors for model comparison
+- ABC acceptance statistics
+
+#### 2. Site Statistics (`observed_stats_[site].csv`)
+- Observed genetic diversity measures
+- Kinship ratios (father-son, mother-daughter)
+- Sex ratios and demographic data
+
+#### 3. Simulation Data (`simulation_summaries_[site].csv`)
+- Complete summary statistics for every simulation
+- Organized by inheritance system and run ID
+- Useful for validation and detailed analysis
+
+#### 4. System Summaries (`system_aggregates_[site].csv`)
+- Mean and standard deviation by inheritance system
+- Statistical patterns across simulations
+
+#### 5. Combined Analysis (when running all sites)
+- `site_analysis_summary.csv` - Results for all sites
+- `inheritance_analysis_visualization.png` - Charts and plots
+- `inheritance_analysis_report.txt` - Detailed text report
+
+
+### Data Requirements
+
+Before running analysis, ensure you have:
+
+1. **Raw data file**: `single_dataset.csv` (from Google Sheets source)
+2. **Cleaned data**: Generate using `python clean_dataset.py single_dataset.csv > cleaned_dataset.csv`
+3. **Python environment**: See requirements in repository
 
 ## ABC Model Selection Framework
 
@@ -172,14 +281,15 @@ def calculate_distance(sim_stats, obs_stats, weights):
     return distance / total_weight
 ```
 
-**Key statistics compared with weights:**
-- `y_diversity`: Y-chromosome diversity (weight = 2.0)
-- `mt_diversity`: mtDNA diversity (weight = 2.0)
-- `prop_father_son`: Father-son relationship ratio (weight = 1.5)
-- `prop_mother_daughter`: Mother-daughter relationship ratio (weight = 1.5)
-- `sex_ratio`: Male/female burial ratio (weight = 1.0)
-- `prop_y_matches`: Y-chromosome sharing in kinship pairs (weight = 1.0)
-- `prop_mt_matches`: mtDNA sharing in kinship pairs (weight = 1.0)
+**Key statistics compared with weights (from `global_parameters.py`):**
+- `y_diversity`: Y-chromosome diversity (weight = 2.0) - Primary genetic discriminator
+- `mt_diversity`: mtDNA diversity (weight = 2.0) - Complementary genetic signal
+- `prop_father_son`: Father-son relationship ratio (weight = 1.5) - Direct kinship evidence
+- `prop_mother_daughter`: Mother-daughter relationship ratio (weight = 1.5) - Direct kinship evidence
+- `sex_ratio`: Male/female burial ratio (weight = 1.0) - Demographic information
+- `prop_y_matches`: Y-chromosome sharing in kinship pairs (weight = 1.0) - Quality control
+- `prop_mt_matches`: mtDNA sharing in kinship pairs (weight = 1.0) - Quality control
+- `prop_inheritors`: Inheritance frequency (weight = 0.5) - Model artifact
 
 ### Rejection Step
 
@@ -209,8 +319,8 @@ for system in unique_systems:
 ### Example: Duxford Site Analysis
 
 #### Input Data:
-- **500 simulations total** (100 per system)
-- **25 accepted** (ε = 0.2005)
+- **500 simulations total** (100 per system, configurable via command line)
+- **25 accepted** (ε = 0.2005, top 5% acceptance rate)
 
 #### Accepted Simulations by System:
 ```
@@ -429,4 +539,4 @@ This approach can be extended to other archaeological contexts and time periods,
 
 ---
 
-*Analysis completed using Python implementation with 500 simulations per site and ABC model selection framework. Full source code and data available in this repository.*
+*Analysis completed using Python implementation with configurable simulations per site (default 100, up to 500+ for publication results) and ABC model selection framework. Results are saved as CSV files for easy analysis and sharing. Full source code and data available in this repository.*

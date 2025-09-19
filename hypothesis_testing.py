@@ -14,6 +14,7 @@ from scipy.spatial.distance import euclidean
 from scipy import stats
 import matplotlib.pyplot as plt
 import seaborn as sns
+import json
 
 from data_preprocessing import SiteDataProcessor, load_and_preprocess_data
 from inheritance_statistics import InheritancePatternAnalyzer
@@ -351,6 +352,72 @@ class HypothesisTestingFramework:
 
         return simulation_results
 
+    def save_results_to_csv(self, site_name: str, abc_results: Dict, simulation_results: Dict):
+        """Save analysis results to CSV files instead of pickle."""
+        site_clean = site_name.replace(' ', '_').replace('/', '_')
+
+        # 1. Save main ABC results
+        main_results = pd.DataFrame([{
+            'Site': abc_results['site_name'],
+            'Best_System': abc_results['best_system'],
+            'Best_Posterior': abc_results['best_posterior'],
+            'Evidence_Strength': abc_results['evidence_strength'],
+            'N_Accepted': abc_results['n_accepted'],
+            'N_Total': abc_results['n_total'],
+            'Acceptance_Rate': abc_results['n_accepted'] / abc_results['n_total'],
+            'Epsilon': abc_results['epsilon']
+        }])
+
+        # Add posterior probabilities for each system
+        for system, prob in abc_results['posteriors'].items():
+            main_results[f'Posterior_{system}'] = prob
+
+        # Add Bayes factors
+        for system, bf in abc_results['bayes_factors'].items():
+            main_results[f'BayesFactor_{system}'] = bf
+
+        main_file = f"abc_results_{site_clean}.csv"
+        main_results.to_csv(main_file, index=False)
+
+        # 2. Save observed statistics
+        obs_stats_df = pd.DataFrame([abc_results['observed_statistics']])
+        obs_stats_df['Site'] = site_name
+        obs_file = f"observed_stats_{site_clean}.csv"
+        obs_stats_df.to_csv(obs_file, index=False)
+
+        # 3. Save simulation summary statistics (aggregated, not raw data)
+        sim_summaries = []
+        for system, results in simulation_results.items():
+            for i, result in enumerate(results):
+                if result.get('success', False):
+                    summary = self.calculate_summary_statistics(result)
+                    summary['system'] = system
+                    summary['simulation_id'] = i
+                    sim_summaries.append(summary)
+
+        if sim_summaries:
+            sim_df = pd.DataFrame(sim_summaries)
+            sim_file = f"simulation_summaries_{site_clean}.csv"
+            sim_df.to_csv(sim_file, index=False)
+
+            # Also save aggregated stats by system
+            agg_stats = sim_df.groupby('system').agg({
+                'y_diversity': ['mean', 'std'],
+                'mt_diversity': ['mean', 'std'],
+                'prop_father_son': ['mean', 'std'],
+                'prop_mother_daughter': ['mean', 'std'],
+                'sex_ratio': ['mean', 'std']
+            }).round(3)
+            agg_file = f"system_aggregates_{site_clean}.csv"
+            agg_stats.to_csv(agg_file)
+
+        print(f"\nResults saved to CSV files:")
+        print(f"  - {main_file} (main ABC results)")
+        print(f"  - {obs_file} (observed site statistics)")
+        if sim_summaries:
+            print(f"  - {sim_file} (simulation summaries)")
+            print(f"  - {agg_file} (aggregated statistics by system)")
+
     def analyze_site(self, site_name: str, n_simulations: int = 100,
                     save_results: bool = True) -> Dict:
         """Complete analysis pipeline for a single site."""
@@ -369,13 +436,7 @@ class HypothesisTestingFramework:
 
         # Save results if requested
         if save_results:
-            output_file = f"abc_results_{site_name.replace(' ', '_').replace('/', '_')}.pkl"
-            with open(output_file, 'wb') as f:
-                pickle.dump({
-                    'simulation_results': simulation_results,
-                    'abc_results': abc_results
-                }, f)
-            print(f"\nResults saved to {output_file}")
+            self.save_results_to_csv(site_name, abc_results, simulation_results)
 
         return abc_results
 

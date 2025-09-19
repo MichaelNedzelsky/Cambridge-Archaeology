@@ -6,6 +6,15 @@ This script:
 2. Runs agent-based simulations for model comparison
 3. Uses ABC to determine most likely inheritance pattern for each site
 4. Generates comprehensive results and visualizations
+
+Usage:
+    python run_full_analysis.py [iterations] [site_name]
+
+Examples:
+    python run_full_analysis.py                    # Run all sites with 100 iterations (default)
+    python run_full_analysis.py 50                 # Run all sites with 50 iterations
+    python run_full_analysis.py 200 Duxford        # Run only Duxford with 200 iterations
+    python run_full_analysis.py 100 "Knobbs 1"     # Run only Knobbs 1 with 100 iterations
 """
 
 import pandas as pd
@@ -14,12 +23,15 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from pathlib import Path
 import warnings
+import sys
+import argparse
 warnings.filterwarnings('ignore')
 
 from hypothesis_testing import HypothesisTestingFramework
 from data_preprocessing import load_and_preprocess_data
 from inheritance_statistics import InheritancePatternAnalyzer
 from site_parameters import SITE_PARAMETERS
+from global_parameters import DEFAULT_SIMULATIONS_PER_SYSTEM
 
 
 def create_results_visualizations(summary_df: pd.DataFrame):
@@ -213,8 +225,67 @@ def generate_detailed_report(summary_df: pd.DataFrame, framework: HypothesisTest
     return report_text
 
 
+def analyze_single_site(framework, site_name, n_simulations):
+    """Analyze a single site and display results."""
+    print(f"\nAnalyzing {site_name} with {n_simulations} simulations per system...")
+
+    try:
+        # Run analysis for single site
+        abc_result = framework.analyze_site(site_name, n_simulations, save_results=True)
+
+        # Display results
+        print("\n" + "=" * 80)
+        print(f"RESULTS FOR {site_name}")
+        print("=" * 80)
+        print(f"Best inheritance system: {abc_result['best_system']}")
+        print(f"Posterior probability: {abc_result['best_posterior']:.3f}")
+        print(f"Evidence strength: {abc_result['evidence_strength']}")
+        print(f"ABC acceptance rate: {abc_result['n_accepted']}/{abc_result['n_total']} = {abc_result['n_accepted']/abc_result['n_total']:.1%}")
+
+        print("\nPosterior probabilities for all systems:")
+        for system, prob in abc_result['posteriors'].items():
+            print(f"  {system:25s}: {prob:.3f}")
+
+        return True
+    except Exception as e:
+        print(f"Error analyzing {site_name}: {e}")
+        return False
+
+
 def main():
     """Run the complete inheritance pattern analysis."""
+
+    # Parse command-line arguments
+    parser = argparse.ArgumentParser(
+        description="Run inheritance pattern analysis for Cambridge Archaeology sites",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  python run_full_analysis.py                    # Run all sites with default iterations
+  python run_full_analysis.py 50                 # Run all sites with 50 iterations
+  python run_full_analysis.py 200 Duxford        # Run only Duxford with 200 iterations
+  python run_full_analysis.py 100 "Knobbs 1"     # Run only Knobbs 1 with 100 iterations
+        """
+    )
+
+    parser.add_argument(
+        'iterations',
+        nargs='?',
+        type=int,
+        default=DEFAULT_SIMULATIONS_PER_SYSTEM,
+        help=f'Number of simulations per inheritance system (default: {DEFAULT_SIMULATIONS_PER_SYSTEM})'
+    )
+
+    parser.add_argument(
+        'site',
+        nargs='?',
+        type=str,
+        help='Specific site to analyze (optional). If not provided, analyzes all sites.'
+    )
+
+    args = parser.parse_args()
+    n_simulations = args.iterations
+    target_site = args.site
 
     print("=" * 80)
     print("CAMBRIDGE ARCHAEOLOGY INHERITANCE PATTERN ANALYSIS")
@@ -225,64 +296,88 @@ def main():
     print("Initializing analysis framework...")
     framework = HypothesisTestingFramework()
 
-    # Get list of sites to analyze
-    sites = framework.processor.get_sites()
-    print(f"Found {len(sites)} sites to analyze:")
-    for i, site in enumerate(sites, 1):
-        print(f"  {i}. {site}")
-    print()
+    # Get list of available sites
+    all_sites = framework.processor.get_sites()
 
-    # Auto-select standard analysis for automated run
-    print("Running Standard analysis (100 simulations per system)...")
-    n_simulations = 100
-    analysis_type = "Standard"
+    if target_site:
+        # Check if the specified site exists
+        if target_site not in all_sites:
+            print(f"\nError: Site '{target_site}' not found.")
+            print(f"Available sites: {', '.join(all_sites)}")
+            sys.exit(1)
 
-    print(f"\nRunning {analysis_type} analysis with {n_simulations} simulations per system...")
-    print("This may take several minutes...")
-    print()
+        # Analyze single site
+        print(f"\nRunning analysis for: {target_site}")
+        print(f"Simulations per system: {n_simulations}")
 
-    # Run analysis for all sites
-    try:
-        summary_df = framework.analyze_all_sites(n_simulations=n_simulations)
+        success = analyze_single_site(framework, target_site, n_simulations)
 
-        print("\n" + "=" * 80)
-        print("ANALYSIS COMPLETE!")
-        print("=" * 80)
+        if success:
+            print("\n" + "=" * 80)
+            print("ANALYSIS COMPLETE!")
+            print("=" * 80)
+            site_clean = target_site.replace(' ', '_').replace('/', '_')
+            print(f"\nResults saved as CSV files:")
+            print(f"  - abc_results_{site_clean}.csv (main results)")
+            print(f"  - observed_stats_{site_clean}.csv (site statistics)")
+            print(f"  - simulation_summaries_{site_clean}.csv (all simulations)")
+            print(f"  - system_aggregates_{site_clean}.csv (summary by system)")
+    else:
+        # Analyze all sites
+        print(f"Found {len(all_sites)} sites to analyze:")
+        for i, site in enumerate(all_sites, 1):
+            print(f"  {i}. {site}")
+        print()
 
-        # Display summary
-        print("\nSUMMARY RESULTS:")
-        print("-" * 40)
-        for _, row in summary_df.iterrows():
-            print(f"{row['Site']:30s} -> {row['Best_System']:20s} (p={row['Best_Posterior']:.2f}, {row['Evidence_Strength']})")
+        print(f"\nRunning analysis with {n_simulations} simulations per system...")
+        print("This may take several minutes...")
+        print()
 
-        # Generate visualizations
-        print("\nGenerating visualizations...")
-        create_results_visualizations(summary_df)
+        # Run analysis for all sites
+        try:
+            summary_df = framework.analyze_all_sites(n_simulations=n_simulations)
 
-        # Generate detailed report
-        print("Generating detailed report...")
-        generate_detailed_report(summary_df, framework)
+            print("\n" + "=" * 80)
+            print("ANALYSIS COMPLETE!")
+            print("=" * 80)
 
-        print("\n" + "=" * 80)
-        print("ANALYSIS FILES GENERATED:")
-        print("=" * 80)
-        print("1. site_analysis_summary.csv - Numerical results")
-        print("2. inheritance_analysis_visualization.png - Charts and plots")
-        print("3. inheritance_analysis_report.txt - Detailed text report")
-        print("4. abc_results_[site_name].pkl - Individual site results")
-        print("5. inheritance_analysis_results.csv - Statistical signatures")
+            # Display summary
+            print("\nSUMMARY RESULTS:")
+            print("-" * 40)
+            for _, row in summary_df.iterrows():
+                print(f"{row['Site']:30s} -> {row['Best_System']:20s} (p={row['Best_Posterior']:.2f}, {row['Evidence_Strength']})")
 
-        print("\nAnalysis completed successfully!")
+            # Generate visualizations
+            print("\nGenerating visualizations...")
+            create_results_visualizations(summary_df)
 
-        return summary_df
+            # Generate detailed report
+            print("Generating detailed report...")
+            generate_detailed_report(summary_df, framework)
 
-    except KeyboardInterrupt:
-        print("\nAnalysis interrupted by user.")
-        return None
-    except Exception as e:
-        print(f"\nError during analysis: {e}")
-        print("Check the data files and try again.")
-        return None
+            print("\n" + "=" * 80)
+            print("ANALYSIS FILES GENERATED:")
+            print("=" * 80)
+            print("1. site_analysis_summary.csv - Numerical results")
+            print("2. inheritance_analysis_visualization.png - Charts and plots")
+            print("3. inheritance_analysis_report.txt - Detailed text report")
+            print("4. abc_results_[site_name].csv - Individual site ABC results")
+            print("5. observed_stats_[site_name].csv - Site statistics")
+            print("6. simulation_summaries_[site_name].csv - All simulation data")
+            print("7. system_aggregates_[site_name].csv - System-level summaries")
+            print("8. inheritance_analysis_results.csv - Statistical signatures")
+
+            print("\nAnalysis completed successfully!")
+
+            return summary_df
+
+        except KeyboardInterrupt:
+            print("\nAnalysis interrupted by user.")
+            return None
+        except Exception as e:
+            print(f"\nError during analysis: {e}")
+            print("Check the data files and try again.")
+            return None
 
 
 if __name__ == "__main__":
