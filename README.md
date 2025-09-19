@@ -118,13 +118,13 @@ DISTANCE_WEIGHTS = {
     # ... additional weights
 }
 
-# Inheritance system definitions
+# Inheritance system definitions (male_prob = 1 - female_prob)
 INHERITANCE_SYSTEMS = {
-    'strongly_patrilineal': {'male_prob': 0.9, 'female_prob': 0.1},
-    'weakly_patrilineal': {'male_prob': 0.7, 'female_prob': 0.3},
-    'balanced': {'male_prob': 0.5, 'female_prob': 0.5},
-    'weakly_matrilineal': {'male_prob': 0.3, 'female_prob': 0.7},
-    'strongly_matrilineal': {'male_prob': 0.1, 'female_prob': 0.9}
+    'strongly_patrilineal': {'female_prob': 0.1},   # 90% male, 10% female
+    'weakly_patrilineal': {'female_prob': 0.3},     # 70% male, 30% female
+    'balanced': {'female_prob': 0.5},               # 50% male, 50% female
+    'weakly_matrilineal': {'female_prob': 0.7},     # 30% male, 70% female
+    'strongly_matrilineal': {'female_prob': 0.9}    # 10% male, 90% female
 }
 ```
 

@@ -39,29 +39,25 @@ DISTANCE_WEIGHTS = {
 }
 
 # Inheritance system definitions
+# Only female_prob is stored; male_prob = 1 - female_prob
 INHERITANCE_SYSTEMS = {
     'strongly_patrilineal': {
-        'male_prob': 0.9,
         'female_prob': 0.1,
         'description': '90% male, 10% female inheritance'
     },
     'weakly_patrilineal': {
-        'male_prob': 0.7,
         'female_prob': 0.3,
         'description': '70% male, 30% female inheritance'
     },
     'balanced': {
-        'male_prob': 0.5,
         'female_prob': 0.5,
         'description': '50% male, 50% female inheritance'
     },
     'weakly_matrilineal': {
-        'male_prob': 0.3,
         'female_prob': 0.7,
         'description': '30% male, 70% female inheritance'
     },
     'strongly_matrilineal': {
-        'male_prob': 0.1,
         'female_prob': 0.9,
         'description': '10% male, 90% female inheritance'
     }
@@ -84,7 +80,9 @@ def get_inheritance_probabilities(system_name):
         raise ValueError(f"Unknown inheritance system: {system_name}")
 
     system = INHERITANCE_SYSTEMS[system_name]
-    return system['male_prob'], system['female_prob']
+    female_prob = system['female_prob']
+    male_prob = 1.0 - female_prob
+    return male_prob, female_prob
 
 def get_system_description(system_name):
     """
