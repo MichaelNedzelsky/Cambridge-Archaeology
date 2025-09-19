@@ -4,6 +4,7 @@
 
 This document describes the agent-based model developed to test five inheritance systems against archaeological aDNA data from Roman-era Cambridgeshire sites. The model uses Approximate Bayesian Computation (ABC) to determine the most likely inheritance patterns for each archaeological site.
 
+
 ## Model Architecture
 
 ### Agent-Based Framework
@@ -16,6 +17,9 @@ The simulation models individual people as agents within a population over multi
 - **Relationships**: Parent-offspring, kinship networks
 
 ### Inheritance Systems Tested
+
+In a patrilocal system, men stay put and women move in → within a cemetery you expect low Y-chr diversity, higher mtDNA diversity.
+In a matrilocal system, women stay and men move in → low mtDNA diversity, higher Y-chr diversity.
 
 1. **Strongly Patrilineal** (90% male inheritance)
    - Theoretical prediction: Y-diversity = 0, high mtDNA diversity
