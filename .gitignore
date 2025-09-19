@@ -33,3 +33,6 @@ Thumbs.db
 # Output files that can be regenerated
 simulation_results/*.pkl
 abc_results_*.pkl
+
+# Local analysis files (not for repository)
+weight_explanation.py
