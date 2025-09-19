@@ -45,7 +45,6 @@ class SimulationParameters:
     population_per_generation: int = 20        # Base population size
     burial_probability: float = 0.8            # Chance of burial at site
     adna_success_rate: float = 0.7            # DNA extraction success
-    migration_rate: float = 0.1                # External gene flow
     starting_haplogroups_y: List[str]          # Founder Y-chromosomes
     starting_haplogroups_mt: List[str]         # Founder mtDNA
 ```
@@ -255,7 +254,7 @@ For Duxford:
 3. **Methodological Insights**:
    - Small sample sizes limit statistical power
    - Burial bias and aDNA preservation affect results
-   - Migration and intermarriage complicate pure inheritance patterns
+   - Intermarriage complicates pure inheritance patterns
 
 4. **Archaeological Implications**:
    - Roman period may represent transitional social organization
@@ -293,8 +292,8 @@ The model was validated through:
 
 1. **Sample Size**: Many sites have limited aDNA samples
 2. **Temporal Resolution**: Cannot distinguish inheritance changes over time
-3. **Migration Effects**: External gene flow complicates local patterns
-4. **Burial Bias**: Not all individuals were buried at cemetery sites
+3. **Burial Bias**: Not all individuals were buried at cemetery sites
+4. **Closed Population**: Assumes no external migration or gene flow
 
 ### Future Improvements
 

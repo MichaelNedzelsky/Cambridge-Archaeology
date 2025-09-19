@@ -49,7 +49,6 @@ class SimulationParameters:
     adna_success_rate: float = 0.7
     inheritance_probability_male: float = 0.5
     inheritance_probability_female: float = 0.5
-    migration_rate: float = 0.1
     starting_haplogroups_y: List[str] = field(default_factory=lambda: ['R1b', 'I2', 'G2a'])
     starting_haplogroups_mt: List[str] = field(default_factory=lambda: ['H', 'U5', 'K1', 'J1', 'T2'])
 
@@ -96,20 +95,20 @@ class InheritanceSimulator:
         return id_str
 
     def _assign_haplogroup(self, individual: Individual, father: Optional[Individual], mother: Optional[Individual]):
-        """Assign haplogroups based on inheritance rules and migration."""
+        """Assign haplogroups based on inheritance rules (no migration)."""
         # Y-chromosome (males only, from father)
         if individual.sex == 'M':
-            if father and father.y_haplogroup and random.random() > self.params.migration_rate:
+            if father and father.y_haplogroup:
                 individual.y_haplogroup = father.y_haplogroup
             else:
-                # New haplogroup from migration or founding population
+                # New haplogroup from founding population
                 individual.y_haplogroup = random.choice(self.haplogroup_pool_y)
 
         # Mitochondrial DNA (from mother)
-        if mother and mother.mt_haplogroup and random.random() > self.params.migration_rate:
+        if mother and mother.mt_haplogroup:
             individual.mt_haplogroup = mother.mt_haplogroup
         else:
-            # New haplogroup from migration or founding population
+            # New haplogroup from founding population
             individual.mt_haplogroup = random.choice(self.haplogroup_pool_mt)
 
     def _determine_inheritance(self, individual: Individual) -> bool:
