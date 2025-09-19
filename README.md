@@ -1,6 +1,44 @@
-# Preparing data
-
 # Agent-Based Simulation for Inheritance Pattern Analysis
+
+## Data Preparation
+
+The archaeological aDNA data used in this analysis comes from the Cambridgeshire aDNA summary dataset available at: https://docs.google.com/spreadsheets/d/1t5xgyfdI6Ix_OLhg1c_x5VofATUbrhkw/edit?gid=759545336#gid=759545336
+
+### Data Cleaning Process
+
+The raw data (`single_dataset.csv`) undergoes the following cleaning steps using `clean_dataset.py`:
+
+1. **Site Filtering**: Records from Arbury site are excluded from analysis
+2. **Age Filtering**: Records with Adult column value "N" (non-adults) are removed
+3. **Site Standardization**: Site ID values are simplified to 5 categories:
+   - `Knobbs` (combines Knobbs 1, 2, and 3)
+   - `NW_Cambridge` (Northwest Cambridge Site IV)
+   - `Vicar_Farm` (Vicar's Farm)
+   - `Fenstanton` (both Dairy Crest and Cambridge Road locations)
+   - `Duxford`
+4. **Column Removal**: Sex determination column is removed (we use DNA sex determination if possible, otherwise default to skeletal)
+5. **Kinship Formatting**: "Sample ID for kin" values are converted to Python list format for easier parsing
+
+To clean the data:
+```bash
+python clean_dataset.py single_dataset.csv > cleaned_dataset.csv
+```
+
+NB: The cleaned dataset stores kinship relationships in the "Sample ID for kin" column as string representations of Python lists. For example:
+  - "[]" for no kinship
+  - "['VIC016']" for single relationship
+  - "['NWC007', 'NWC009', 'NWC004']" for multiple relationships
+
+  When pandas reads the CSV, these values are loaded as strings, not actual Python lists. To convert them back to usable list objects, you use ast.literal_eval():
+
+  import pandas as pd
+  import ast
+
+  df = pd.read_csv('cleaned_dataset.csv')
+
+  # Convert string "['VIC016']" to actual list ['VIC016']
+  kin_list = ast.literal_eval(df.iloc[0]['Sample ID for kin'])
+
 
 ## Overview
 
