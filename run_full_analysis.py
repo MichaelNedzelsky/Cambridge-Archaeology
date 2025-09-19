@@ -28,9 +28,9 @@ import argparse
 warnings.filterwarnings('ignore')
 
 from hypothesis_testing import HypothesisTestingFramework
+from site_parameters import SITE_PARAMETERS
 from data_preprocessing import load_and_preprocess_data
 from inheritance_statistics import InheritancePatternAnalyzer
-from site_parameters import SITE_PARAMETERS
 from global_parameters import DEFAULT_SIMULATIONS_PER_SYSTEM
 
 
@@ -252,6 +252,67 @@ def analyze_single_site(framework, site_name, n_simulations):
         return False
 
 
+def map_site_name(user_site, all_sites):
+    """
+    Map user-provided site name to actual archaeological site name.
+
+    Supports both simplified site names from site_parameters.py and full archaeological names.
+
+    Args:
+        user_site (str): Site name provided by user
+        all_sites (list): List of all available archaeological site names
+
+    Returns:
+        str or list: Mapped site name(s), or None if not found
+    """
+    if not user_site:
+        return None
+
+    # First check if it's already a valid archaeological site name
+    if user_site in all_sites:
+        return user_site
+
+    # Create mapping from simplified names to archaeological names
+    site_mapping = {
+        'Duxford': 'Duxford',
+        'NW_Cambridge': 'Northwest Cambridge Site IV RB.2C',
+        'Vicar_Farm': "Vicar's Farm",
+        'Fenstanton': ['Fenstanton - Cambridge Road', 'Fenstanton - Dairy Crest'],
+        'Knobbs': ['Knobbs 1', 'Knobbs 2', 'Knobbs 3']
+    }
+
+    # Check case-insensitive match with simplified names
+    user_site_lower = user_site.lower()
+    for simple_name, archaeological_names in site_mapping.items():
+        if user_site_lower == simple_name.lower():
+            if isinstance(archaeological_names, list):
+                # Return all sites for multi-site names like Knobbs and Fenstanton
+                return archaeological_names
+            else:
+                return archaeological_names
+
+    # Check partial matches for multi-site names
+    if 'knobbs' in user_site_lower:
+        # Check for specific Knobbs site (1, 2, or 3)
+        for site in ['Knobbs 1', 'Knobbs 2', 'Knobbs 3']:
+            if site.lower() in user_site_lower or user_site_lower in site.lower():
+                return site
+        # If just "Knobbs", return all Knobbs sites
+        return ['Knobbs 1', 'Knobbs 2', 'Knobbs 3']
+
+    if 'fenstanton' in user_site_lower:
+        # Check for specific Fenstanton location
+        if 'cambridge' in user_site_lower or 'road' in user_site_lower:
+            return 'Fenstanton - Cambridge Road'
+        elif 'dairy' in user_site_lower or 'crest' in user_site_lower:
+            return 'Fenstanton - Dairy Crest'
+        # If just "Fenstanton", return both sites
+        return ['Fenstanton - Cambridge Road', 'Fenstanton - Dairy Crest']
+
+    # No match found
+    return None
+
+
 def main():
     """Run the complete inheritance pattern analysis."""
 
@@ -264,7 +325,14 @@ Examples:
   python run_full_analysis.py                    # Run all sites with default iterations
   python run_full_analysis.py 50                 # Run all sites with 50 iterations
   python run_full_analysis.py 200 Duxford        # Run only Duxford with 200 iterations
+  python run_full_analysis.py 100 Knobbs         # Run all Knobbs sites (1, 2, 3) with 100 iterations
   python run_full_analysis.py 100 "Knobbs 1"     # Run only Knobbs 1 with 100 iterations
+  python run_full_analysis.py 50 Fenstanton      # Run both Fenstanton sites with 50 iterations
+  python run_full_analysis.py 100 Vicar_Farm     # Run Vicar's Farm with 100 iterations
+
+Custom inheritance analysis:
+  python run_full_analysis.py --female-prob 0.4 100 Duxford    # Custom 40% female inheritance
+  python run_full_analysis.py --female_prob 0.8 50 Vicar_Farm  # Custom 80% female inheritance
         """
     )
 
@@ -300,17 +368,42 @@ Examples:
     all_sites = framework.processor.get_sites()
 
     if target_site:
-        # Check if the specified site exists
-        if target_site not in all_sites:
+        # Map user site name to archaeological site name(s)
+        mapped_sites = map_site_name(target_site, all_sites)
+
+        if mapped_sites is None:
             print(f"\nError: Site '{target_site}' not found.")
             print(f"Available sites: {', '.join(all_sites)}")
+            print(f"\nSimplified site names you can use:")
+            print(f"  - Duxford")
+            print(f"  - NW_Cambridge")
+            print(f"  - Vicar_Farm")
+            print(f"  - Fenstanton (analyzes both Cambridge Road and Dairy Crest)")
+            print(f"  - Knobbs (analyzes Knobbs 1, 2, and 3)")
             sys.exit(1)
 
-        # Analyze single site
-        print(f"\nRunning analysis for: {target_site}")
-        print(f"Simulations per system: {n_simulations}")
+        # Handle multiple sites (e.g., "Knobbs" maps to all 3 Knobbs sites)
+        if isinstance(mapped_sites, list):
+            print(f"\nRunning analysis for sites: {', '.join(mapped_sites)}")
+            print(f"Simulations per system: {n_simulations}")
 
-        success = analyze_single_site(framework, target_site, n_simulations)
+            # Analyze each site in the group
+            all_success = True
+            for site in mapped_sites:
+                print(f"\n--- Analyzing {site} ---")
+                success = analyze_single_site(framework, site, n_simulations)
+                if not success:
+                    all_success = False
+
+            if not all_success:
+                print("\nSome sites failed to analyze completely.")
+                sys.exit(1)
+        else:
+            # Single site analysis
+            print(f"\nRunning analysis for: {mapped_sites}")
+            print(f"Simulations per system: {n_simulations}")
+
+            success = analyze_single_site(framework, mapped_sites, n_simulations)
 
         if success:
             print("\n" + "=" * 80)

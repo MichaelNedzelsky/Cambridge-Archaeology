@@ -145,6 +145,57 @@ graph TD
     I --> E
 ```
 
+### Missing Data and aDNA Success Modeling
+
+The simulation realistically models missing genetic data that characterizes ancient DNA research:
+
+#### Two-Stage Missing Data Process
+
+1. **Burial Simulation** (`BURIAL_PROBABILITY = 0.8`)
+   - 80% chance individual gets preserved in archaeological record
+   - Accounts for taphonomic processes and site formation
+
+2. **aDNA Extraction Simulation** (`ADNA_SUCCESS_RATE = 0.7`)
+   - 70% chance DNA extraction succeeds from buried individual
+   - Models realistic ancient DNA preservation rates
+
+**Overall Genetic Data Availability**: `0.8 × 0.7 = 56%` of all simulated individuals have haplogroup data
+
+#### Missing Data Handling in Observed Archaeological Data
+
+**Data Cleaning Process** (`data_preprocessing.py:105-124`):
+```python
+def _clean_haplogroup(self, series: pd.Series) -> pd.Series:
+    # Mark invalid/missing data patterns as np.nan
+    invalid_patterns = [
+        'too low coverage', 'unknown', 'nan', 'untested',
+        '#n/a', 'n/a', '', 'none'
+    ]
+    # Standardized missing data representation
+    cleaned = cleaned.replace('', np.nan)
+```
+
+**Statistical Calculations** automatically exclude missing values:
+- **Y-chromosome diversity**: `y_valid = site_data['y_chr_clean'].dropna()`
+- **mtDNA diversity**: `mt_valid = site_data['mt_dna_clean'].dropna()`
+- **Kinship analysis**: Only individuals with valid haplogroup data contribute
+
+#### Simulation Implementation
+
+**aDNA Success Determination** (`agent_simulation.py:245-246`):
+```python
+if self._simulate_adna_success():  # Uses ADNA_SUCCESS_RATE
+    adna_successful.append(individual)
+```
+
+**Missing Data Creation** (`agent_simulation.py:267-268`):
+```python
+'Y_Haplogroup': ind.y_haplogroup if has_adna else np.nan,
+'mt_Haplogroup': ind.mt_haplogroup if has_adna else np.nan,
+```
+
+This creates realistic missing data patterns (~44% missing genetic data) that mirror archaeological reality, where many individuals lack genetic data due to poor preservation or failed extraction.
+
 ### Key Statistics Calculated
 
 #### Haplotype Diversity (Nei's Formula)
@@ -177,7 +228,7 @@ The main analysis script supports flexible execution options:
 python run_full_analysis.py                    # All sites, default iterations (100)
 python run_full_analysis.py 50                 # All sites, 50 iterations
 python run_full_analysis.py 200 Duxford        # Only Duxford, 200 iterations
-python run_full_analysis.py 100 "Knobbs 1"     # Only Knobbs 1, 100 iterations
+python run_full_analysis.py 100 "Knobbs"     # Only Knobbs 1, 100 iterations
 ```
 
 **Available sites:**
