@@ -1,5 +1,7 @@
 # Agent-Based Simulation for Inheritance Pattern Analysis
 
+See https://imibath.ac.uk/2025/07/30/mathematics-in-archaeology/ and https://hackmd.io/@chrisbudd/H1ObTcTcgg
+
 ## Data Preparation
 
 The archaeological aDNA data used in this analysis comes from the Cambridgeshire aDNA summary dataset available at: https://docs.google.com/spreadsheets/d/1t5xgyfdI6Ix_OLhg1c_x5VofATUbrhkw/edit?gid=759545336#gid=759545336
